@@ -10,18 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="タスク名"
+        android:inputType="text"
         tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="84dp" />
-
-    <EditText
-        android:id="@+id/edit_limit_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="164dp" />
+        tools:layout_editor_absoluteY="84dp"
+        tools:text="タスク名" />
 
 </android.support.constraint.ConstraintLayout>
