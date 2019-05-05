@@ -6,8 +6,10 @@ package com.example.kota.task_manager;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
 
@@ -33,8 +35,7 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
                     COLUMN_CREATE_DATE + " TEXT," +
                     COLUMN_UPDATE_DATE + " TEXT)";
 
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + TABLE_NAME;
+    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 
     MySQLiteOpenHelper(Context context) {
@@ -44,12 +45,23 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+//        //テーブルの存在確認
+//        String query = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='task';";
+//        Cursor c = db.rawQuery(query, null);
+//        c.moveToFirst();
+//        String result = c.getString(0);
+//        Log.d("result", result);
+//
+//        //存在してなければ作成
+//        if(result == "0") {
+//            db.execSQL(
+//                    SQL_CREATE_ENTRIES
+//            );
+//        }
+
         db.execSQL(
                 SQL_CREATE_ENTRIES
         );
-
-        saveData(db, "music1", "desc1", "2017-12-09 15:00:00", "2017-12-09 15:00:00", "2017-12-09 15:00:00");
-        saveData(db, "music2", "desc2", "2017-12-09 15:00:00", "2017-12-09 15:00:00", "2017-12-09 15:00:00");
     }
 
     // 参考：https://sankame.github.io/blog/2017-09-05-android_sqlite_db_upgrade/

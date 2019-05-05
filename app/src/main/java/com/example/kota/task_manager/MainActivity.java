@@ -7,10 +7,12 @@ import android.view.View;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private MySQLiteOpenHelper helper;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
         cursor.close();
 
-        String result = sbuilder.toString();
+        // 変数textViewに結果を表示
+        textView = findViewById(R.id.task_text);
+        textView.setText(sbuilder.toString());
 
         Button sendButton = findViewById(R.id.to_task_edit);
         sendButton.setOnClickListener(new View.OnClickListener() {
