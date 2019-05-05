@@ -22,7 +22,7 @@
             android:inputType="text"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="84dp"
-            tools:text="タスク名" />
+            android:hint="タスク名" />
 
         <EditText
             android:id="@+id/edit_limit_date"
@@ -36,7 +36,31 @@
             android:inputType="text"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="84dp"
-            tools:text="期日" />
+            android:hint="期日" />
+
+        <EditText
+            android:id="@+id/edit_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:ems="10"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="84dp"
+            android:hint="備考" />
+
+        <Button
+            android:id="@+id/task_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edit_description"
+            android:layout_marginTop="31dp"
+            android:text="登録" />
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
