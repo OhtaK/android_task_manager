@@ -6,22 +6,28 @@
     android:layout_height="match_parent"
     tools:context="com.example.kota.task_manager.MainActivity">
 
-    <TextView
-        android:id="@+id/task_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="no_tasks"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/to_task_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="タスク追加へ"
-        tools:layout_editor_absoluteX="89dp"
-        tools:layout_editor_absoluteY="103dp" />
+        <Button
+            android:id="@+id/to_task_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="タスク追加へ"
+            tools:layout_editor_absoluteX="89dp"
+            tools:layout_editor_absoluteY="103dp" />
+
+        <ListView
+            android:id="@+id/task_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/to_task_edit" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
