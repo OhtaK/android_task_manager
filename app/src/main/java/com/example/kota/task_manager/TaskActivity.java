@@ -39,7 +39,7 @@ public class TaskActivity extends AppCompatActivity  {
                 //SQLiteに保存
                 helper = new MySQLiteOpenHelper(getApplicationContext());
                 SQLiteDatabase db = helper.getReadableDatabase();
-                MySQLiteOpenHelper.saveData(db, title, limitDate, description, "2017-12-09 15:00:00", "2017-12-09 15:00:00");
+                MySQLiteOpenHelper.saveData(db, title, description, limitDate, 2, "2017-12-09 15:00:00", "2017-12-09 15:00:00");
 
                 //トップページにリダイレクト
                 Intent intent = new Intent(getApplication(), MainActivity.class);

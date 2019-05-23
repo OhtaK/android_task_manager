@@ -18,7 +18,6 @@ import java.util.List;
 
 public class TaskListAdapter extends ArrayAdapter<Task> {
 
-    PackageManager packageManager;
     private LayoutInflater inflater;
 
     public TaskListAdapter(Context context, List<Task> objects) {
