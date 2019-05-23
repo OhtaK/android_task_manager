@@ -36,13 +36,13 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         Task task = this.getItem(position);
 
         TextView tv = (TextView) convertView.findViewById(R.id.title);
-        tv.setText(task.getTitle());
+        tv.setText("タスク名：" + task.getTitle());
 
         tv = (TextView) convertView.findViewById(R.id.limit_date);
-        tv.setText(task.getLimitDate());
+        tv.setText("期日：" + task.getLimitDate());
 
         tv = (TextView) convertView.findViewById(R.id.description);
-        tv.setText(task.getDescription());
+        tv.setText("備考：" + task.getDescription());
 
         return convertView;
     }

@@ -31,15 +31,17 @@ public class TaskActivity extends AppCompatActivity  {
                 EditText etTitle = (EditText) findViewById(R.id.edit_task_name);
                 EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
                 EditText etDescription = (EditText) findViewById(R.id.edit_description);
+                EditText etStatusId = (EditText) findViewById(R.id.edit_status_id);
 
                 String title = etTitle.getText().toString();
                 String limitDate = etLimitDate.getText().toString();
                 String description = etDescription.getText().toString();
+                Integer status_id = Integer.valueOf(etStatusId.getText().toString());
 
                 //SQLiteに保存
                 helper = new MySQLiteOpenHelper(getApplicationContext());
                 SQLiteDatabase db = helper.getReadableDatabase();
-                MySQLiteOpenHelper.saveData(db, title, description, limitDate, 2, "2017-12-09 15:00:00", "2017-12-09 15:00:00");
+                MySQLiteOpenHelper.saveData(db, title, description, limitDate, status_id, "2017-12-09 15:00:00", "2017-12-09 15:00:00");
 
                 //トップページにリダイレクト
                 Intent intent = new Intent(getApplication(), MainActivity.class);

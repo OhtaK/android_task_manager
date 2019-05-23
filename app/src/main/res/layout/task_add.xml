@@ -51,14 +51,27 @@
             tools:layout_editor_absoluteY="84dp"
             android:hint="備考" />
 
+        <EditText
+            android:id="@+id/edit_status_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edit_description"
+            android:ems="10"
+            android:hint="ステータス"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="84dp" />
+
         <Button
             android:id="@+id/task_add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/edit_description"
-            android:layout_marginTop="31dp"
+            android:layout_below="@+id/edit_status_id"
+            android:layout_marginTop="26dp"
             android:text="登録" />
 
     </RelativeLayout>

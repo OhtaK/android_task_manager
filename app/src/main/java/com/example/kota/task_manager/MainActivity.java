@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         //タスク検索
-        List<Task> taskList = Task.findAllByStatusId(db, 2);
+        List<Task> taskList = Task.findAllByStatusId(db, 1);
 
         //独自リスト表示用のadapterを用意
         TaskListAdapter adapter = new TaskListAdapter(getApplicationContext(), taskList);
