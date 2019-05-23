@@ -45,6 +45,8 @@ public class Task {
     public void setStatusId(Integer status_id) { this.status_id = status_id; }
 
     public static List<Task> findAllByStatusId (SQLiteDatabase db, Integer statusId){
+        //ステータスIDでタスクを検索し、結果をエンティティにセット
+
         Cursor cursor = db.query(
                 "task",
                 new String[] {"title", "description", "limit_date", "status_id", "create_date", "update_date"},
