@@ -29,15 +29,24 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         //タスク検索
-        List<Task> taskList = Task.findAllByStatusId(db, StatusId.DOING.getStatusId());
+        List<Task> todoTaskList = Task.findAllByStatusId(db, StatusId.TODO.getStatusId());
+        List<Task> doingTaskList = Task.findAllByStatusId(db, StatusId.DOING.getStatusId());
 
         //独自リスト表示用のadapterを用意
-        TaskListAdapter adapter = new TaskListAdapter(getApplicationContext(), taskList);
-        adapter.addAll(taskList);
+        TaskListAdapter doingAdapter = new TaskListAdapter(getApplicationContext(), doingTaskList);
+        doingAdapter.addAll(doingTaskList);
+
+        //独自リスト表示用のadapterを用意
+        TaskListAdapter todoAdapter = new TaskListAdapter(getApplicationContext(), todoTaskList);
+        todoAdapter.addAll(todoTaskList);
 
         // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.task_list);
-        listView.setAdapter(adapter);
+        ListView listView = (ListView)findViewById(R.id.todo_task_list);
+        listView.setAdapter(todoAdapter);
+
+        // ListViewにArrayAdapterを設定する
+        ListView doingListView = (ListView)findViewById(R.id.doing_task_list);
+        doingListView.setAdapter(doingAdapter);
 
         Button sendButton = findViewById(R.id.to_task_edit);
         sendButton.setOnClickListener(new View.OnClickListener() {

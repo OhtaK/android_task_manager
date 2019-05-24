@@ -21,13 +21,37 @@
             tools:layout_editor_absoluteX="89dp"
             tools:layout_editor_absoluteY="103dp" />
 
-        <ListView
-            android:id="@+id/task_list"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/to_task_edit" />
+            android:layout_below="@+id/to_task_edit"
+            android:id="@+id/relativeLayout">
+
+            <ListView
+                android:id="@+id/todo_task_list"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+            </ListView>
+
+            <ListView
+                android:id="@+id/doing_task_list"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp">
+
+            </ListView>
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
