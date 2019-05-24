@@ -24,29 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // DB作成
-        helper = new MySQLiteOpenHelper(getApplicationContext());
-        SQLiteDatabase db = helper.getReadableDatabase();
-
-        //タスク検索
-        List<Task> todoTaskList = Task.findAllByStatusId(db, StatusId.TODO.getStatusId());
-        List<Task> doingTaskList = Task.findAllByStatusId(db, StatusId.DOING.getStatusId());
-
-        //独自リスト表示用のadapterを用意
-        TaskListAdapter doingAdapter = new TaskListAdapter(getApplicationContext(), doingTaskList);
-        doingAdapter.addAll(doingTaskList);
-
-        //独自リスト表示用のadapterを用意
-        TaskListAdapter todoAdapter = new TaskListAdapter(getApplicationContext(), todoTaskList);
-        todoAdapter.addAll(todoTaskList);
-
-        // ListViewにArrayAdapterを設定する
-        ListView listView = (ListView)findViewById(R.id.todo_task_list);
-        listView.setAdapter(todoAdapter);
-
-        // ListViewにArrayAdapterを設定する
-        ListView doingListView = (ListView)findViewById(R.id.doing_task_list);
-        doingListView.setAdapter(doingAdapter);
+        //タスクを検索してviewにセット
+        for(int statusId = 1; statusId < 3; statusId++){
+            setTaskListView(statusId);
+        }
 
         Button sendButton = findViewById(R.id.to_task_edit);
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -56,5 +37,40 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setTaskListView(Integer statusId){
+        // DB作成
+        helper = new MySQLiteOpenHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        //タスク検索
+        List<Task> taskList = Task.findAllByStatusId(db, statusId);
+
+        //独自リスト表示用のadapterを用意
+        TaskListAdapter adapter = new TaskListAdapter(getApplicationContext(), taskList);
+        adapter.addAll(taskList);
+
+        ListView listView = null;
+        // ListViewにArrayAdapterを設定する
+        switch(statusId){
+            case 1:
+                listView = (ListView)findViewById(R.id.todo_task_list);
+                break;
+
+            case 2:
+                listView = (ListView)findViewById(R.id.doing_task_list);
+                break;
+
+            case 3:
+                //listView = (ListView)findViewById(R.id.doing_task_list);
+                break;
+
+            default:
+                //不正な引数が入りましたエラーを投げる
+                break;
+        }
+
+        listView.setAdapter(adapter);
     }
 }
