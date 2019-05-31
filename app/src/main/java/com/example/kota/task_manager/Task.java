@@ -11,10 +11,19 @@ import java.util.List;
  */
 
 public class Task {
+    private Integer id;
     private String title;
     private String description;
     private String limit_date;
     private Integer status_id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -49,7 +58,7 @@ public class Task {
 
         Cursor cursor = db.query(
                 "task",
-                new String[] {"title", "description", "limit_date", "status_id", "create_date", "update_date"},
+                new String[] {"id", "title", "description", "limit_date", "status_id", "create_date", "update_date"},
                 "status_id = " + String.valueOf(statusId),
                 null,
                 null,
@@ -62,15 +71,39 @@ public class Task {
         cursor.moveToFirst();
         for (int i = 0; i < cursor.getCount(); i++) {
             Task task = new Task();
-            task.setTitle(cursor.getString(0));
-            task.setDescription(cursor.getString(1));
-            task.setLimitDate(cursor.getString(2));
-            task.setStatusId(Integer.valueOf(cursor.getString(3)));
+            task.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            task.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+            task.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+            task.setLimitDate(cursor.getString(cursor.getColumnIndex("limit_date")));
+            task.setStatusId(Integer.valueOf(cursor.getString(cursor.getColumnIndex("status_id"))));
             taskList.add(task);
             cursor.moveToNext();
         }
         cursor.close();
 
         return taskList;
+    }
+
+    public static Integer fetchLastId (SQLiteDatabase db){
+        //最新のIDを検索
+
+        Cursor cursor = db.query(
+                "task",
+                new String[] {"id"},
+                null,
+                null,
+                null,
+                null,
+                "id desc",
+                "1"
+        );
+        Integer lastId = 0;
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0){
+            lastId = cursor.getInt(cursor.getColumnIndex("id"));
+        }
+        cursor.close();
+
+        return lastId;
     }
 }

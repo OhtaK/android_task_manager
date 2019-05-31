@@ -14,12 +14,12 @@ import android.util.Log;
 public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
 
     // データーベースのバージョン
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // データーベース情報を変数に格納
     private static final String DATABASE_NAME = "taskManager.db";
     private static final String TABLE_NAME = "task";
-    private static final String _ID = "_id";
+    private static final String ID = "id";
     private static final String COLUMN_NAME_TITLE = "title";
     private static final String COLUMN_DESCRIPTION = "description";
     private static final String COLUMN_LIMIT_DATE = "limit_date";
@@ -29,7 +29,7 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_NAME + " (" +
-                    _ID + " INTEGER PRIMARY KEY," +
+                    ID + " INTEGER PRIMARY KEY," +
                     COLUMN_NAME_TITLE + " TEXT," +
                     COLUMN_DESCRIPTION + " TEXT," +
                     COLUMN_LIMIT_DATE + " TEXT," +
@@ -79,8 +79,9 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public static void saveData(SQLiteDatabase db, String title, String description, String limit_date, Integer status_id, String create_date, String update_date){
+    public static void saveData(SQLiteDatabase db, Integer id, String title, String description, String limit_date, Integer status_id, String create_date, String update_date){
         ContentValues values = new ContentValues();
+        values.put("id", id);
         values.put("title", title);
         values.put("description", description);
         values.put("limit_date", limit_date);
