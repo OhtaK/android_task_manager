@@ -55,7 +55,6 @@ public class Task {
 
     public static List<Task> findAllByStatusId (SQLiteDatabase db, Integer statusId){
         //ステータスIDでタスクを検索し、結果をエンティティにセット
-
         Cursor cursor = db.query(
                 "task",
                 new String[] {"id", "title", "description", "limit_date", "status_id", "create_date", "update_date"},
@@ -84,9 +83,33 @@ public class Task {
         return taskList;
     }
 
+    public static Task findByTaskId (SQLiteDatabase db, Integer taskId){
+        //ステータスIDでタスクを検索し、結果をエンティティにセット
+        Cursor cursor = db.query(
+                "task",
+                new String[] {"id", "title", "description", "limit_date", "status_id", "create_date", "update_date"},
+                "id = " + String.valueOf(taskId),
+                null,
+                null,
+                null,
+                null
+        );
+
+        //結果格納用のリスト
+        cursor.moveToFirst();
+        Task task = new Task();
+        task.setId(cursor.getInt(cursor.getColumnIndex("id")));
+        task.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+        task.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+        task.setLimitDate(cursor.getString(cursor.getColumnIndex("limit_date")));
+        task.setStatusId(Integer.valueOf(cursor.getString(cursor.getColumnIndex("status_id"))));
+        cursor.close();
+
+        return task;
+    }
+
     public static Integer fetchLastId (SQLiteDatabase db){
         //最新のIDを検索
-
         Cursor cursor = db.query(
                 "task",
                 new String[] {"id"},

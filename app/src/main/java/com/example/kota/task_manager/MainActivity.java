@@ -79,16 +79,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (view.getId()) {
                     case R.id.task_list:
-                        Toast.makeText(MainActivity.this, "タスク" + position + "が押されました", Toast.LENGTH_SHORT).show();
-//                        TextView tv = (TextView) view.findViewById(R.id.title);
-//                        String title = String.valueOf(tv.getText());
-//
-//                        tv = (TextView) view.findViewById(R.id.limit_date);
-//                        String limit_date = String.valueOf(tv.getText());
-//
-//                        tv = (TextView) view.findViewById(R.id.description);
-//                        String description = String.valueOf(tv.getText());
                         Intent intent = new Intent(getApplication(), TaskActivity.class);
+                        TextView tv = (TextView) view.findViewById(R.id.task_id);
+                        intent.putExtra("task_id", tv.getText().toString());
                         startActivity(intent);
                         break;
                 }
