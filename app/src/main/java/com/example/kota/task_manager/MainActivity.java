@@ -2,22 +2,20 @@ package com.example.kota.task_manager;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private MySQLiteOpenHelper helper;
-    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +31,14 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), TaskActivity.class);
-                startActivity(intent);
+                toEditActivity();
             }
         });
+    }
+
+    public void toEditActivity(){
+        Intent intent = new Intent(getApplication(), TaskActivity.class);
+        startActivity(intent);
     }
 
     private void setTaskListView(Integer statusId){
@@ -72,5 +74,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (view.getId()) {
+                    case R.id.task_list:
+                        Toast.makeText(MainActivity.this, "タスク" + position + "が押されました", Toast.LENGTH_SHORT).show();
+//                        TextView tv = (TextView) view.findViewById(R.id.title);
+//                        String title = String.valueOf(tv.getText());
+//
+//                        tv = (TextView) view.findViewById(R.id.limit_date);
+//                        String limit_date = String.valueOf(tv.getText());
+//
+//                        tv = (TextView) view.findViewById(R.id.description);
+//                        String description = String.valueOf(tv.getText());
+                        Intent intent = new Intent(getApplication(), TaskActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
     }
 }

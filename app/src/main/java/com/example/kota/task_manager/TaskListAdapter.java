@@ -1,6 +1,7 @@
 package com.example.kota.task_manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
@@ -8,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         //Viewを受け取ってlist要素用のlayoutにセットしていく
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.task_list, parent, false);
@@ -43,6 +47,16 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
 
         tv = (TextView) convertView.findViewById(R.id.description);
         tv.setText("備考：" + task.getDescription());
+
+        //タスクの一要素をクリックで編集画面に飛ぶ
+        LinearLayout ll = (LinearLayout)convertView.findViewById(R.id.task_list);
+        ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //MainActivity.toEditActivity();
+                ((ListView) parent).performItemClick(v, position, R.id.task_list);
+            }
+        });
 
         return convertView;
     }
