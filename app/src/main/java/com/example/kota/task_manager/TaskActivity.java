@@ -4,7 +4,6 @@ package com.example.kota.task_manager;
  * Created by keisuke-ota on 2019/04/17.
  */
 
-import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -70,6 +69,27 @@ public class TaskActivity extends AppCompatActivity  {
                 }
                 else{
                     MySQLiteOpenHelper.saveData(db, Task.fetchLastId(db) + 1, title, description, limitDate, statusId);
+                }
+
+                //トップページにリダイレクト
+                Intent intent = new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button taskDeleteButton = findViewById(R.id.task_delete_btn);
+        taskDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //SQLiteに保存
+                helper = new MySQLiteOpenHelper(getApplicationContext());
+                SQLiteDatabase db = helper.getReadableDatabase();
+
+                if(editTaskId > 0){
+                    MySQLiteOpenHelper.deleteById(db, editTaskId);
+                }
+                else{
+                    //MySQLiteOpenHelper.saveData(db, Task.fetchLastId(db) + 1, title, description, limitDate, statusId);
                 }
 
                 //トップページにリダイレクト

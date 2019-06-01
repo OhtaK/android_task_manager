@@ -113,4 +113,8 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
 
         db.update("task", values, "id = " + id, null);
     }
+
+    public static void deleteById(SQLiteDatabase db, Integer id){
+        db.delete("task", "id = " + id, null);
+    }
 }
