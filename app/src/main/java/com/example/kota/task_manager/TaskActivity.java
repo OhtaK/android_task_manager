@@ -64,19 +64,12 @@ public class TaskActivity extends AppCompatActivity  {
                 //SQLiteに保存
                 helper = new MySQLiteOpenHelper(getApplicationContext());
                 SQLiteDatabase db = helper.getReadableDatabase();
-                db = helper.getReadableDatabase();
 
                 if(editTaskId > 0){
-                    ContentValues cv = new ContentValues();
-                    cv.put("title", title);
-                    cv.put("description", description);
-                    cv.put("limit_date", limitDate);
-                    cv.put("status_id", statusId);
-
-                    db.update("task", cv, "id = " + editTaskId, null);
+                    MySQLiteOpenHelper.updateById(db, editTaskId, title, description, limitDate, statusId);
                 }
                 else{
-                    MySQLiteOpenHelper.saveData(db, Task.fetchLastId(db) + 1, title, description, limitDate, statusId, "2017-12-09 15:00:00", "2017-12-09 15:00:00");
+                    MySQLiteOpenHelper.saveData(db, Task.fetchLastId(db) + 1, title, description, limitDate, statusId);
                 }
 
                 //トップページにリダイレクト

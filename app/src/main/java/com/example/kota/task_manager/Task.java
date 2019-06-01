@@ -57,7 +57,7 @@ public class Task {
         //ステータスIDでタスクを検索し、結果をエンティティにセット
         Cursor cursor = db.query(
                 "task",
-                new String[] {"id", "title", "description", "limit_date", "status_id", "create_date", "update_date"},
+                new String[] {"id", "title", "description", "limit_date", "status_id"},
                 "status_id = " + String.valueOf(statusId),
                 null,
                 null,
@@ -75,6 +75,7 @@ public class Task {
             task.setDescription(cursor.getString(cursor.getColumnIndex("description")));
             task.setLimitDate(cursor.getString(cursor.getColumnIndex("limit_date")));
             task.setStatusId(Integer.valueOf(cursor.getString(cursor.getColumnIndex("status_id"))));
+
             taskList.add(task);
             cursor.moveToNext();
         }

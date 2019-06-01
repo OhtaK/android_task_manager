@@ -9,6 +9,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
 
     // データーベースのバージョン
@@ -77,16 +81,36 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public static void saveData(SQLiteDatabase db, Integer id, String title, String description, String limit_date, Integer status_id, String create_date, String update_date){
+    public static void saveData(SQLiteDatabase db, Integer id, String title, String description, String limitDate, Integer statusId){
+        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final Date date = new Date(System.currentTimeMillis());
+        String currentDate = df.format(date);
+
+        ContentValues values = new ContentValues();
+        values.put("id", id);
+        values.put("title", title);
+        values.put("description", description);
+        values.put("limit_date", limitDate);
+        values.put("status_id", String.valueOf(statusId));
+        values.put("create_date", currentDate);
+        values.put("update_date", currentDate);
+
+        db.insert(TABLE_NAME, null, values);
+    }
+
+    public static void updateById(SQLiteDatabase db, Integer id, String title, String description, String limit_date, Integer status_id){
+        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final Date date = new Date(System.currentTimeMillis());
+        String currentDate = df.format(date);
+
         ContentValues values = new ContentValues();
         values.put("id", id);
         values.put("title", title);
         values.put("description", description);
         values.put("limit_date", limit_date);
         values.put("status_id", String.valueOf(status_id));
-        values.put("create_date", create_date);
-        values.put("update_date", update_date);
+        values.put("update_date", currentDate);
 
-        db.insert(TABLE_NAME, null, values);
+        db.update("task", values, "id = " + id, null);
     }
 }
