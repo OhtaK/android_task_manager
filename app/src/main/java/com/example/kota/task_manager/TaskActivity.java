@@ -4,7 +4,7 @@ package com.example.kota.task_manager;
  * Created by keisuke-ota on 2019/04/17.
  */
 
-import android.database.Cursor;
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 public class TaskActivity extends AppCompatActivity  {
 
     private MySQLiteOpenHelper helper;
+    private Integer editTaskId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +25,13 @@ public class TaskActivity extends AppCompatActivity  {
         setContentView(R.layout.task_add);
 
         Intent intent = getIntent();
-        Integer taskId = 0;
+        editTaskId = 0;
         if(intent.getStringExtra("task_id") != null) {
-            taskId = Integer.valueOf(intent.getStringExtra("task_id"));
+            //タスク情報から遷移してきた場合、そのタスクの情報を初期値として設定しておく
+            editTaskId = Integer.valueOf(intent.getStringExtra("task_id"));
             helper = new MySQLiteOpenHelper(getApplicationContext());
             SQLiteDatabase db = helper.getReadableDatabase();
-            Task task = Task.findByTaskId(db, taskId);
+            Task task = Task.findByTaskId(db, editTaskId);
 
             //各テキストボックスの値取得
             EditText etTitle = (EditText)findViewById(R.id.edit_task_name);
@@ -57,14 +59,25 @@ public class TaskActivity extends AppCompatActivity  {
                 String title = etTitle.getText().toString();
                 String limitDate = etLimitDate.getText().toString();
                 String description = etDescription.getText().toString();
-                Integer status_id = Integer.valueOf(etStatusId.getText().toString());
+                Integer statusId = Integer.valueOf(etStatusId.getText().toString());
 
                 //SQLiteに保存
                 helper = new MySQLiteOpenHelper(getApplicationContext());
                 SQLiteDatabase db = helper.getReadableDatabase();
                 db = helper.getReadableDatabase();
-                Integer lastId = Task.fetchLastId(db);
-                MySQLiteOpenHelper.saveData(db, lastId + 1, title, description, limitDate, status_id, "2017-12-09 15:00:00", "2017-12-09 15:00:00");
+
+                if(editTaskId > 0){
+                    ContentValues cv = new ContentValues();
+                    cv.put("title", title);
+                    cv.put("description", description);
+                    cv.put("limit_date", limitDate);
+                    cv.put("status_id", statusId);
+
+                    db.update("task", cv, "id = " + editTaskId, null);
+                }
+                else{
+                    MySQLiteOpenHelper.saveData(db, Task.fetchLastId(db) + 1, title, description, limitDate, statusId, "2017-12-09 15:00:00", "2017-12-09 15:00:00");
+                }
 
                 //トップページにリダイレクト
                 Intent intent = new Intent(getApplication(), MainActivity.class);
