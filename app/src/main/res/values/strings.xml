@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">task_manager</string>
+
+    <string-array name="status_list">
+    <item>TODO</item>
+    <item>DOING</item>
+    <item>DONE</item>
+    </string-array>
 </resources>

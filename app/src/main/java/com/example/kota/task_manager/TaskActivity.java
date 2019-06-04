@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
 import android.content.Intent;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class TaskActivity extends AppCompatActivity  {
@@ -36,12 +37,12 @@ public class TaskActivity extends AppCompatActivity  {
             EditText etTitle = (EditText)findViewById(R.id.edit_task_name);
             EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
             EditText etDescription = (EditText) findViewById(R.id.edit_description);
-            EditText etStatusId = (EditText) findViewById(R.id.edit_status_id);
+            //EditText etStatusId = (EditText) findViewById(R.id.edit_status_id);
 
             etTitle.setText(task.getTitle(), TextView.BufferType.NORMAL);
             etLimitDate.setText(task.getLimitDate(), TextView.BufferType.NORMAL);
             etDescription.setText(task.getDescription(), TextView.BufferType.NORMAL);
-            etStatusId.setText(String.valueOf(task.getStatusId()), TextView.BufferType.NORMAL);
+            //etStatusId.setText(String.valueOf(task.getStatusId()), TextView.BufferType.NORMAL);
         }
 
         Button taskAddButton = findViewById(R.id.task_add_btn);
@@ -53,12 +54,15 @@ public class TaskActivity extends AppCompatActivity  {
                 EditText etTitle = (EditText) findViewById(R.id.edit_task_name);
                 EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
                 EditText etDescription = (EditText) findViewById(R.id.edit_description);
-                EditText etStatusId = (EditText) findViewById(R.id.edit_status_id);
+
+                // Spinnerから選択したステータスを取得
+                Spinner spinnerItem = (Spinner) findViewById(R.id.status_id_spinner);
+                String selectedStatus = (String) spinnerItem.getSelectedItem();
 
                 String title = etTitle.getText().toString();
                 String limitDate = etLimitDate.getText().toString();
                 String description = etDescription.getText().toString();
-                Integer statusId = Integer.valueOf(etStatusId.getText().toString());
+                Integer statusId = StatusId.valueOf(selectedStatus).getStatusId();
 
                 //SQLiteに保存
                 helper = new MySQLiteOpenHelper(getApplicationContext());
