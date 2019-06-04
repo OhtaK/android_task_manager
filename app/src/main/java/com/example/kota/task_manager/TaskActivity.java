@@ -37,12 +37,12 @@ public class TaskActivity extends AppCompatActivity  {
             EditText etTitle = (EditText)findViewById(R.id.edit_task_name);
             EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
             EditText etDescription = (EditText) findViewById(R.id.edit_description);
-            //EditText etStatusId = (EditText) findViewById(R.id.edit_status_id);
+            Spinner spinnerItem = (Spinner) findViewById(R.id.status_id_spinner);
 
             etTitle.setText(task.getTitle(), TextView.BufferType.NORMAL);
             etLimitDate.setText(task.getLimitDate(), TextView.BufferType.NORMAL);
             etDescription.setText(task.getDescription(), TextView.BufferType.NORMAL);
-            //etStatusId.setText(String.valueOf(task.getStatusId()), TextView.BufferType.NORMAL);
+            spinnerItem.setSelection(task.getStatusId() - 1);
         }
 
         Button taskAddButton = findViewById(R.id.task_add_btn);
