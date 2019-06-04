@@ -101,5 +101,15 @@ public class TaskActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
+        EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
+        etLimitDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //datepickerを呼び出し
+                DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                datePicker.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
     }
 }
