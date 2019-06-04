@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         //独自リスト表示用のadapterを用意
         TaskListAdapter adapter = new TaskListAdapter(getApplicationContext(), taskList);
-        adapter.addAll(taskList);
 
         ListView listView = null;
         // ListViewにArrayAdapterを設定する
