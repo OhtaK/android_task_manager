@@ -31,24 +31,53 @@
 
             <ListView
                 android:id="@+id/todo_task_list"
-                android:layout_width="200dp"
+                android:layout_width="180dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="41dp">
 
             </ListView>
 
             <ListView
                 android:id="@+id/doing_task_list"
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp">
+                android:layout_alignTop="@+id/todo_task_list"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@+id/todo_task_list"
+                android:layout_toRightOf="@+id/todo_task_list">
 
             </ListView>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/doing_task_list"
+                android:layout_alignLeft="@+id/doing_task_list"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/doing_task_list"
+                android:layout_alignStart="@+id/doing_task_list"
+                android:gravity="center"
+                android:text="DOING"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/doing_task_list"
+                android:layout_alignEnd="@+id/todo_task_list"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/todo_task_list"
+                android:gravity="center"
+                android:text="TODO"
+                android:textSize="30sp" />
 
         </RelativeLayout>
 
