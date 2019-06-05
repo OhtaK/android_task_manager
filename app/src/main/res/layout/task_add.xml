@@ -37,7 +37,7 @@
             android:hint="期日"
             android:inputType="text"
             tools:layout_editor_absoluteX="44dp"
-            tools:layout_editor_absoluteY="84dp" />
+            tools:layout_editor_absoluteY="84dp"/>
 
         <EditText
             android:id="@+id/edit_description"
