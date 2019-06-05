@@ -107,8 +107,8 @@ public class TaskActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 //datepickerを呼び出し
-                DatePickerDialogFragment.textView = (EditText) findViewById(R.id.edit_limit_date);//日付選択したときに表示したいviewをセット
                 DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                datePicker.showDateView = (EditText) findViewById(R.id.edit_limit_date);
                 datePicker.show(getSupportFragmentManager(), "datePicker");
             }
         });
