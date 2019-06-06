@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    public static EditText showDateView;
+    public EditText showDateView;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

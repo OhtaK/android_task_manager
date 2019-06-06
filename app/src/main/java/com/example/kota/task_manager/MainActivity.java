@@ -75,14 +75,11 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (view.getId()) {
-                    case R.id.task_list:
-                        Intent intent = new Intent(getApplication(), TaskActivity.class);
-                        TextView tv = (TextView) view.findViewById(R.id.task_id);
-                        intent.putExtra("task_id", tv.getText().toString());
-                        startActivity(intent);
-                        break;
-                }
+                //タスクのカードをクリックでそのタスクの編集画面に遷移
+                Intent intent = new Intent(getApplication(), TaskActivity.class);
+                TextView tv = (TextView) view.findViewById(R.id.task_id);
+                intent.putExtra("task_id", tv.getText().toString());
+                startActivity(intent);
             }
         });
     }
