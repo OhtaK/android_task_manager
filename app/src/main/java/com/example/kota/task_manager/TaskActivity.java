@@ -24,6 +24,13 @@ public class TaskActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_add);
 
+        EditText etTitle = (EditText)findViewById(R.id.edit_task_name);
+        EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
+        EditText etDescription = (EditText) findViewById(R.id.edit_description);
+        Spinner spinnerItem = (Spinner) findViewById(R.id.status_id_spinner);
+        Button taskAddButton = findViewById(R.id.task_add_btn);
+        Button taskDeleteButton = findViewById(R.id.task_delete_btn);
+
         Intent intent = getIntent();
         editTaskId = 0;
         if(intent.getStringExtra("task_id") != null) {
@@ -33,23 +40,15 @@ public class TaskActivity extends AppCompatActivity  {
             SQLiteDatabase db = helper.getReadableDatabase();
             Task task = Task.findByTaskId(db, editTaskId);
 
-            //各テキストボックスの値取得
-            EditText etTitle = (EditText)findViewById(R.id.edit_task_name);
-            EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
-            EditText etDescription = (EditText) findViewById(R.id.edit_description);
-            Spinner spinnerItem = (Spinner) findViewById(R.id.status_id_spinner);
-
             etTitle.setText(task.getTitle(), TextView.BufferType.NORMAL);
             etLimitDate.setText(task.getLimitDate(), TextView.BufferType.NORMAL);
             etDescription.setText(task.getDescription(), TextView.BufferType.NORMAL);
             spinnerItem.setSelection(task.getStatusId() - 1);
 
             //削除ボタン表示
-            Button taskDeleteButton = findViewById(R.id.task_delete_btn);
             taskDeleteButton.setVisibility(View.VISIBLE);
         }
 
-        Button taskAddButton = findViewById(R.id.task_add_btn);
         taskAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +84,6 @@ public class TaskActivity extends AppCompatActivity  {
             }
         });
 
-        Button taskDeleteButton = findViewById(R.id.task_delete_btn);
         taskDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +95,7 @@ public class TaskActivity extends AppCompatActivity  {
                     MySQLiteOpenHelper.deleteById(db, editTaskId);
                 }
                 else{
-                    //MySQLiteOpenHelper.saveData(db, Task.fetchLastId(db) + 1, title, description, limitDate, statusId);
+                    //タスクが選択されてませんエラーを投げる
                 }
 
                 //トップページにリダイレクト
@@ -106,7 +104,6 @@ public class TaskActivity extends AppCompatActivity  {
             }
         });
 
-        EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
         etLimitDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
