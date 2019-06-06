@@ -83,7 +83,8 @@
             android:layout_alignBottom="@+id/task_add_btn"
             android:layout_alignEnd="@+id/edit_description"
             android:layout_alignRight="@+id/edit_description"
-            android:text="削除" />
+            android:text="削除"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

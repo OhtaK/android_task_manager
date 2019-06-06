@@ -43,6 +43,10 @@ public class TaskActivity extends AppCompatActivity  {
             etLimitDate.setText(task.getLimitDate(), TextView.BufferType.NORMAL);
             etDescription.setText(task.getDescription(), TextView.BufferType.NORMAL);
             spinnerItem.setSelection(task.getStatusId() - 1);
+
+            //削除ボタン表示
+            Button taskDeleteButton = findViewById(R.id.task_delete_btn);
+            taskDeleteButton.setVisibility(View.VISIBLE);
         }
 
         Button taskAddButton = findViewById(R.id.task_add_btn);
