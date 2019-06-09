@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +32,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 toEditActivity();
+            }
+        });
+
+        EditText etLimitDateStart = (EditText) findViewById(R.id.search_limit_date_start);
+        etLimitDateStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //datepickerを呼び出し
+                DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                datePicker.showDateView = (EditText) findViewById(R.id.search_limit_date_start);
+                datePicker.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+        EditText etLimitDateEnd = (EditText) findViewById(R.id.search_limit_date_end);
+        etLimitDateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //datepickerを呼び出し
+                DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                datePicker.showDateView = (EditText) findViewById(R.id.search_limit_date_end);
+                datePicker.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+        Button BtnSearch = findViewById(R.id.btn_search);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //conditionを取ってきてタスクリストを作り変える
             }
         });
     }
@@ -63,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 3:
-                //listView = (ListView)findViewById(R.id.doing_task_list);
+                //listView = (ListView)findViewById(R.id.done_list);
                 break;
 
             default:

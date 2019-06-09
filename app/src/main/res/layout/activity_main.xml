@@ -21,13 +21,53 @@
             tools:layout_editor_absoluteX="89dp"
             tools:layout_editor_absoluteY="103dp" />
 
+        <EditText
+            android:id="@+id/search_limit_date_start"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/to_task_edit"
+            android:ems="10"
+            android:hint="期日で検索（始点）"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="84dp" />
+
+        <EditText
+            android:id="@+id/search_limit_date_end"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/search_limit_date_start"
+            android:layout_alignBottom="@+id/search_limit_date_start"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="11dp"
+            android:layout_marginRight="11dp"
+            android:ems="10"
+            android:hint="期日で検索（終点）"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="84dp" />
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/search_limit_date_start"
+            android:layout_marginTop="16dp"
+            android:text="条件を反映"
+            tools:layout_editor_absoluteX="89dp"
+            tools:layout_editor_absoluteY="103dp" />
+
         <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/to_task_edit"
-            android:id="@+id/relativeLayout">
+            android:layout_below="@+id/btn_search"
+            android:layout_marginTop="13dp">
 
             <ListView
                 android:id="@+id/todo_task_list"
@@ -44,16 +84,29 @@
                 android:id="@+id/doing_task_list"
                 android:layout_width="180dp"
                 android:layout_height="match_parent"
-                android:layout_alignTop="@+id/todo_task_list"
-                android:layout_marginLeft="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_toEndOf="@+id/todo_task_list"
-                android:layout_toRightOf="@+id/todo_task_list">
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="41dp">
 
             </ListView>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/list_title_todo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/todo_task_list"
+                android:layout_alignLeft="@+id/todo_task_list"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/todo_task_list"
+                android:layout_alignStart="@+id/todo_task_list"
+                android:gravity="center"
+                android:text="TODO"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/list_title_doing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/doing_task_list"
@@ -63,20 +116,6 @@
                 android:layout_alignStart="@+id/doing_task_list"
                 android:gravity="center"
                 android:text="DOING"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/doing_task_list"
-                android:layout_alignEnd="@+id/todo_task_list"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/todo_task_list"
-                android:gravity="center"
-                android:text="TODO"
                 android:textSize="30sp" />
 
         </RelativeLayout>
