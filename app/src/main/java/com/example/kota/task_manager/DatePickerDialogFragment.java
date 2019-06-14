@@ -32,7 +32,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //日付が選択されたときの処理
-        String str = String.format(Locale.US, "%d/%d/%d",year, month+1, day);
+        String str = String.format(Locale.US, "%d-%d-%d",year, month+1, day);
         showDateView.setText(str);
     }
 }

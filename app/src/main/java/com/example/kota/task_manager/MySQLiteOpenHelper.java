@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
 
@@ -75,6 +76,37 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
                 SQL_DELETE_ENTRIES
         );
         onCreate(db);
+    }
+
+    public String buildSelectionStr(Map<String, String> conditionMap){
+        //検索条件をmapで渡すとSQLiteのqueryに入れるStringを生成
+        //配列に入りうるのはstatus_id, limit_date_start, limit_start_end
+        //配列をforeachで回してconditionを生成していく。string型のカラムに存在するものは''で囲む
+        String result = "";
+        int index = 0;
+        for (String key: conditionMap.keySet()) {
+            if(index != 0){
+                result += "and ";
+            }
+
+            switch(key){
+                case "status_id":
+                    result += "status_id =" + conditionMap.get(key) + " ";
+                    break;
+
+                case "limit_date_start":
+                    result += "limit_date >= '" + conditionMap.get(key) + "' ";
+                    break;
+
+                case "limit_date_end":
+                    result += "limit_date <= '" + conditionMap.get(key) + "' ";
+                    break;
+            }
+
+            index++;
+        }
+
+        return result;
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -11,7 +11,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
         //タスクを検索してviewにセット
         for(int statusId = 1; statusId < 3; statusId++){
-            setTaskListView(statusId);
+            Map<String, String> conditionMap = new HashMap<String, String>();
+            conditionMap.put("status_id", String.valueOf(statusId));
+            helper = new MySQLiteOpenHelper(getApplicationContext());
+            String condition = helper.buildSelectionStr(conditionMap);
+            setTaskListView(statusId, condition);
         }
 
         Button sendButton = findViewById(R.id.to_task_edit);
@@ -58,10 +64,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button BtnSearch = findViewById(R.id.btn_search);
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        BtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //conditionを取ってきてタスクリストを作り変える
+                //各テキストボックスの値取得
+                EditText etLimitDateStart = (EditText) findViewById(R.id.search_limit_date_start);
+                EditText etLimitDateEnd = (EditText) findViewById(R.id.search_limit_date_end);
+                String limitDateStart = etLimitDateStart.getText().toString();
+                String limitDateEnd = etLimitDateEnd.getText().toString();
+
+                //検索、Viewにセット
+                SQLiteDatabase db = helper.getReadableDatabase();
+                for(int statusId = 1; statusId < 3; statusId++){
+                    //SQLiteのqueryメソッドに入れるconditionのString作成
+                    Map<String, String> conditionMap = new HashMap<String, String>();
+                    conditionMap.put("limit_date_start", limitDateStart);
+                    conditionMap.put("limit_date_end", limitDateEnd);
+                    conditionMap.put("status_id", String.valueOf(statusId));
+                    helper = new MySQLiteOpenHelper(getApplicationContext());
+                    String condition = helper.buildSelectionStr(conditionMap);
+
+                    setTaskListView(statusId, condition);
+                }
             }
         });
     }
@@ -71,13 +96,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setTaskListView(Integer statusId){
+    private void setTaskListView(Integer statusId, String condition){
         // DB作成
         helper = new MySQLiteOpenHelper(getApplicationContext());
         SQLiteDatabase db = helper.getReadableDatabase();
 
         //タスク検索
-        List<Task> taskList = Task.findAllByStatusId(db, statusId);
+        List<Task> taskList = Task.findAllByConditionStr(db, condition);
 
         //独自リスト表示用のadapterを用意
         TaskListAdapter adapter = new TaskListAdapter(getApplicationContext(), taskList);
