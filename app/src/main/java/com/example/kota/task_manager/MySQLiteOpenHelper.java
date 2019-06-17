@@ -85,6 +85,10 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
         String result = "";
         int index = 0;
         for (String key: conditionMap.keySet()) {
+            if(conditionMap.get(key).isEmpty()){
+                continue;
+            }
+
             if(index != 0){
                 result += "and ";
             }

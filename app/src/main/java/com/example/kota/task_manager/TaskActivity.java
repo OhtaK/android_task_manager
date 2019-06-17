@@ -7,6 +7,7 @@ package com.example.kota.task_manager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
@@ -107,6 +108,12 @@ public class TaskActivity extends AppCompatActivity  {
         etLimitDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //ソフトキーボードを表示させない
+                if (v != null) {
+                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+
                 //datepickerを呼び出し
                 DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
                 datePicker.showDateView = (EditText) findViewById(R.id.edit_limit_date);

@@ -6,4 +6,14 @@
     <item>DOING</item>
     <item>DONE</item>
     </string-array>
+
+    <string-array name="sort_columns">
+        <item>期日</item>
+        <item>タスク名</item>
+    </string-array>
+
+    <string-array name="sort_order">
+        <item>昇順</item>
+        <item>降順</item>
+    </string-array>
 </resources>

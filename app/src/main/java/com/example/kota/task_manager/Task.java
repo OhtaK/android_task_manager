@@ -53,16 +53,16 @@ public class Task {
 
     public void setStatusId(Integer status_id) { this.status_id = status_id; }
 
-    public static List<Task> findAllByConditionStr (SQLiteDatabase db, String conditionStr){
+    public static List<Task> findAllByConditionStr (SQLiteDatabase db, String condition, String order){
         //ステータスIDでタスクを検索し、結果をエンティティにセット
         Cursor cursor = db.query(
                 "task",
                 new String[] {"id", "title", "description", "limit_date", "status_id"},
-                conditionStr,
+                condition,
                 null,
                 null,
                 null,
-                null
+                order
         );
 
         //結果格納用のリスト

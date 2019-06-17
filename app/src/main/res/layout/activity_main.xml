@@ -48,14 +48,51 @@
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="84dp" />
 
+        <Spinner
+            android:id="@+id/sort_columns_spinner"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/search_limit_date_start"
+            android:layout_marginTop="20dp"
+            android:entries="@array/sort_columns"
+            tools:layout_editor_absoluteX="55dp"
+            tools:layout_editor_absoluteY="62dp" />
+
+        <Spinner
+            android:id="@+id/sort_order_by_spinner"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/sort_columns_spinner"
+            android:layout_alignBottom="@+id/sort_columns_spinner"
+            android:layout_toEndOf="@+id/sort_columns_spinner"
+            android:layout_toRightOf="@+id/sort_columns_spinner"
+            android:entries="@array/sort_order"
+            tools:layout_editor_absoluteX="55dp"
+            tools:layout_editor_absoluteY="62dp" />
+
+        <TextView
+            android:id="@+id/sort_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/sort_order_by_spinner"
+            android:layout_toEndOf="@+id/sort_order_by_spinner"
+            android:layout_toRightOf="@+id/sort_order_by_spinner"
+            android:gravity="center"
+            android:text="でソート"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="289dp"
+            tools:layout_editor_absoluteY="108dp" />
+
         <Button
             android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/search_limit_date_start"
-            android:layout_marginTop="16dp"
+            android:layout_below="@+id/sort_text"
+            android:layout_marginTop="21dp"
             android:text="条件を反映"
             tools:layout_editor_absoluteX="89dp"
             tools:layout_editor_absoluteY="103dp" />
@@ -67,7 +104,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/btn_search"
-            android:layout_marginTop="13dp">
+            android:layout_marginTop="20dp">
 
             <ListView
                 android:id="@+id/todo_task_list"

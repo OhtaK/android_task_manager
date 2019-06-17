@@ -1,7 +1,10 @@
 package com.example.kota.task_manager;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -22,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         setContentView(R.layout.activity_main);
 
         //タスクを検索してviewにセット
@@ -30,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             conditionMap.put("status_id", String.valueOf(statusId));
             helper = new MySQLiteOpenHelper(getApplicationContext());
             String condition = helper.buildSelectionStr(conditionMap);
-            setTaskListView(statusId, condition);
+            setTaskListView(statusId, condition, null);
         }
 
         Button sendButton = findViewById(R.id.to_task_edit);
@@ -45,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         etLimitDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //ソフトキーボードを表示させない
+                if (v != null) {
+                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+
                 //datepickerを呼び出し
                 DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
                 datePicker.showDateView = (EditText) findViewById(R.id.search_limit_date_start);
@@ -56,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
         etLimitDateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //ソフトキーボードを表示させない
+                if (v != null) {
+                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+
                 //datepickerを呼び出し
                 DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
                 datePicker.showDateView = (EditText) findViewById(R.id.search_limit_date_end);
@@ -74,6 +93,28 @@ public class MainActivity extends AppCompatActivity {
                 String limitDateStart = etLimitDateStart.getText().toString();
                 String limitDateEnd = etLimitDateEnd.getText().toString();
 
+                // Spinnerから選択したステータスを取得
+                Spinner spinnerOrderColumns = (Spinner) findViewById(R.id.sort_columns_spinner);
+                String selectedOrderColumns = (String) spinnerOrderColumns.getSelectedItem();
+
+                Spinner spinnerOrderBy = (Spinner) findViewById(R.id.sort_order_by_spinner);
+                String selectedOrderBy = (String) spinnerOrderBy.getSelectedItem();
+
+                String order = "";
+                if(selectedOrderColumns.equals("期日")){
+                    order += "limit_date ";
+                }
+                else{
+                    order += "title ";
+                }
+
+                if(selectedOrderBy.equals("昇順")){
+                    order += "asc";
+                }
+                else{
+                    order += "desc";
+                }
+
                 //検索、Viewにセット
                 SQLiteDatabase db = helper.getReadableDatabase();
                 for(int statusId = 1; statusId < 3; statusId++){
@@ -85,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                     helper = new MySQLiteOpenHelper(getApplicationContext());
                     String condition = helper.buildSelectionStr(conditionMap);
 
-                    setTaskListView(statusId, condition);
+                    setTaskListView(statusId, condition, order);
                 }
             }
         });
@@ -96,13 +137,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setTaskListView(Integer statusId, String condition){
+    private void setTaskListView(Integer statusId, String condition, String order){
         // DB作成
         helper = new MySQLiteOpenHelper(getApplicationContext());
         SQLiteDatabase db = helper.getReadableDatabase();
 
         //タスク検索
-        List<Task> taskList = Task.findAllByConditionStr(db, condition);
+        List<Task> taskList = Task.findAllByConditionStr(db, condition, order);
 
         //独自リスト表示用のadapterを用意
         TaskListAdapter adapter = new TaskListAdapter(getApplicationContext(), taskList);
