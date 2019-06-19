@@ -79,16 +79,14 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
     }
 
     public String buildSelectionStr(Map<String, String> conditionMap){
-        //検索条件をmapで渡すとSQLiteのqueryに入れるStringを生成
-        //配列に入りうるのはstatus_id, limit_date_start, limit_start_end
-        //配列をforeachで回してconditionを生成していく。string型のカラムに存在するものは''で囲む
+        //検索条件をmapで渡すとSQLiteのqueryに入れるStringを生成。配列をforeachで回してconditionを生成していく。
+        //値が入ってなかったら条件に入れない
         String result = "";
         int index = 0;
         for (String key: conditionMap.keySet()) {
             if(conditionMap.get(key).isEmpty()){
                 continue;
             }
-
             if(index != 0){
                 result += "and ";
             }
@@ -106,7 +104,6 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
                     result += "limit_date <= '" + conditionMap.get(key) + "' ";
                     break;
             }
-
             index++;
         }
 

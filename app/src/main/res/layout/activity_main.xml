@@ -97,65 +97,103 @@
             tools:layout_editor_absoluteX="89dp"
             tools:layout_editor_absoluteY="103dp" />
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="match_parent"
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/sort_text"
+            android:layout_alignRight="@+id/sort_text"
             android:layout_below="@+id/btn_search"
-            android:layout_marginTop="20dp">
+            tools:layout_editor_absoluteY="231dp">
 
-            <ListView
-                android:id="@+id/todo_task_list"
-                android:layout_width="180dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="41dp">
-
-            </ListView>
-
-            <ListView
-                android:id="@+id/doing_task_list"
-                android:layout_width="180dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="200dp"
-                android:layout_marginTop="41dp">
-
-            </ListView>
-
-            <TextView
-                android:id="@+id/list_title_todo"
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/todo_task_list"
-                android:layout_alignLeft="@+id/todo_task_list"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/todo_task_list"
-                android:layout_alignStart="@+id/todo_task_list"
-                android:gravity="center"
-                android:text="TODO"
-                android:textSize="30sp" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="231dp">
 
-            <TextView
-                android:id="@+id/list_title_doing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/doing_task_list"
-                android:layout_alignLeft="@+id/doing_task_list"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/doing_task_list"
-                android:layout_alignStart="@+id/doing_task_list"
-                android:gravity="center"
-                android:text="DOING"
-                android:textSize="30sp" />
+                <TextView
+                    android:id="@+id/list_title_doing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/doing_task_list"
+                    android:layout_alignLeft="@+id/doing_task_list"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/doing_task_list"
+                    android:layout_alignStart="@+id/doing_task_list"
+                    android:gravity="center"
+                    android:text="DOING"
+                    android:textSize="30sp" />
 
-        </RelativeLayout>
+                <ListView
+                    android:id="@+id/doing_task_list"
+                    android:layout_width="180dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="41dp">
+
+                </ListView>
+
+                <TextView
+                    android:id="@+id/list_title_todo"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/todo_task_list"
+                    android:layout_alignLeft="@+id/todo_task_list"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/todo_task_list"
+                    android:layout_alignStart="@+id/todo_task_list"
+                    android:gravity="center"
+                    android:text="TODO"
+                    android:textSize="30sp" />
+
+
+                <TextView
+                    android:id="@+id/list_title_done"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/done_task_list"
+                    android:layout_alignLeft="@+id/done_task_list"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/done_task_list"
+                    android:layout_alignStart="@+id/done_task_list"
+                    android:gravity="center"
+                    android:text="DONE"
+                    android:textSize="30sp" />
+
+                <ListView
+                    android:id="@+id/todo_task_list"
+                    android:layout_width="180dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="41dp">
+
+                </ListView>
+
+                <ListView
+                    android:id="@+id/done_task_list"
+                    android:layout_width="180dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="400dp"
+                    android:layout_marginTop="41dp">
+
+                </ListView>
+
+
+            </RelativeLayout>
+
+        </HorizontalScrollView>
 
     </RelativeLayout>
 

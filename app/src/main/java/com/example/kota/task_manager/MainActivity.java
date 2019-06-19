@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //タスクを検索してviewにセット
-        for(int statusId = 1; statusId < 3; statusId++){
+        for(int statusId = 1; statusId < 4; statusId++){
             Map<String, String> conditionMap = new HashMap<String, String>();
             conditionMap.put("status_id", String.valueOf(statusId));
             helper = new MySQLiteOpenHelper(getApplicationContext());
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //検索、Viewにセット
                 SQLiteDatabase db = helper.getReadableDatabase();
-                for(int statusId = 1; statusId < 3; statusId++){
+                for(int statusId = 1; statusId < 4; statusId++){
                     //SQLiteのqueryメソッドに入れるconditionのString作成
                     Map<String, String> conditionMap = new HashMap<String, String>();
                     conditionMap.put("limit_date_start", limitDateStart);
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 3:
-                //listView = (ListView)findViewById(R.id.done_list);
+                listView = (ListView)findViewById(R.id.done_task_list);
                 break;
 
             default:
