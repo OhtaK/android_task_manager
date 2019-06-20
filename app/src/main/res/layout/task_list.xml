@@ -12,14 +12,6 @@
         android:background="@drawable/task_list_bg">
 
         <TextView
-            android:id="@+id/task_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="メインテキスト"
-            android:textSize="20sp"
-            android:textColor="#000000"/>
-
-        <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

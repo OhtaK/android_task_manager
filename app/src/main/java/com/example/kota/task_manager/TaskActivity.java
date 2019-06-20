@@ -35,7 +35,7 @@ public class TaskActivity extends AppCompatActivity  {
         Intent intent = getIntent();
         editTaskId = 0;
         if(intent.getStringExtra("task_id") != null) {
-            //タスク情報から遷移してきた場合、そのタスクの情報を初期値として設定しておく
+            //タスク情報から遷移してきた場合、そのタスクの情報を初期値としてテキストボックスに設定しておく
             editTaskId = Integer.valueOf(intent.getStringExtra("task_id"));
             helper = new MySQLiteOpenHelper(getApplicationContext());
             SQLiteDatabase db = helper.getReadableDatabase();

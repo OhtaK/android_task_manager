@@ -173,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //タスクのカードをクリックでそのタスクの編集画面に遷移
+                Task item = (Task)parent.getItemAtPosition(position);
                 Intent intent = new Intent(getApplication(), TaskActivity.class);
-                TextView tv = (TextView) view.findViewById(R.id.task_id);
-                intent.putExtra("task_id", tv.getText().toString());
+                intent.putExtra("task_id", String.valueOf(item.getId()));
                 startActivity(intent);
             }
         });

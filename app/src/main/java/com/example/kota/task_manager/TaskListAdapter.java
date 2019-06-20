@@ -34,17 +34,14 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
 
         Task task = this.getItem(position);
 
-        TextView tv = (TextView) convertView.findViewById(R.id.task_id);
-        tv.setText(String.valueOf(task.getId()));
+        TextView tvTitle = (TextView) convertView.findViewById(R.id.title);
+        tvTitle.setText("タスク名：" + task.getTitle());
 
-        tv = (TextView) convertView.findViewById(R.id.title);
-        tv.setText("タスク名：" + task.getTitle());
+        TextView tvLimitDate = (TextView) convertView.findViewById(R.id.limit_date);
+        tvLimitDate.setText("期日：" + task.getLimitDate());
 
-        tv = (TextView) convertView.findViewById(R.id.limit_date);
-        tv.setText("期日：" + task.getLimitDate());
-
-        tv = (TextView) convertView.findViewById(R.id.description);
-        tv.setText("備考：" + task.getDescription());
+        TextView tvDescription = (TextView) convertView.findViewById(R.id.description);
+        tvDescription.setText("備考：" + task.getDescription());
 
         //タスクの一要素をクリックで編集画面に飛ぶ
         LinearLayout ll = (LinearLayout)convertView.findViewById(R.id.task_list);
