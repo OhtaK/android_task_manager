@@ -44,16 +44,6 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         TextView tvDescription = (TextView) convertView.findViewById(R.id.description);
         tvDescription.setText(task.getDescription());
 
-        //タスクの一要素をクリックで編集画面に飛ぶ
-        RelativeLayout ll = (RelativeLayout)convertView.findViewById(R.id.task_list);
-        ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //MainActivity.toEditActivity();
-                ((ListView) parent).performItemClick(v, position, R.id.task_list);
-            }
-        });
-
         return convertView;
     }
 }
