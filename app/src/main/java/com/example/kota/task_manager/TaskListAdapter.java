@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -35,16 +36,16 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         Task task = this.getItem(position);
 
         TextView tvTitle = (TextView) convertView.findViewById(R.id.title);
-        tvTitle.setText("タスク名：" + task.getTitle());
+        tvTitle.setText(task.getTitle());
 
         TextView tvLimitDate = (TextView) convertView.findViewById(R.id.limit_date);
-        tvLimitDate.setText("期日：" + task.getLimitDate());
+        tvLimitDate.setText(task.getLimitDate());
 
         TextView tvDescription = (TextView) convertView.findViewById(R.id.description);
-        tvDescription.setText("備考：" + task.getDescription());
+        tvDescription.setText(task.getDescription());
 
         //タスクの一要素をクリックで編集画面に飛ぶ
-        LinearLayout ll = (LinearLayout)convertView.findViewById(R.id.task_list);
+        RelativeLayout ll = (RelativeLayout)convertView.findViewById(R.id.task_list);
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
