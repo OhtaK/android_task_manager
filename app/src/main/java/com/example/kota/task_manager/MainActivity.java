@@ -11,7 +11,9 @@ import android.view.View;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,23 +24,47 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private MySQLiteOpenHelper helper;
+    SQLiteDatabase db;
+    boolean search_disp_flg = false;
+    RelativeLayout searchComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         setContentView(R.layout.activity_main);
+        helper = new MySQLiteOpenHelper(getApplicationContext());
+        db = helper.getReadableDatabase();
 
         //タスクを検索してviewにセット
         for(int statusId = 1; statusId < 4; statusId++){
             Map<String, String> conditionMap = new HashMap<String, String>();
             conditionMap.put("status_id", String.valueOf(statusId));
-            helper = new MySQLiteOpenHelper(getApplicationContext());
             String condition = helper.buildSelectionStr(conditionMap);
             setTaskListView(statusId, condition, null);
         }
+
+        searchComponent = (RelativeLayout)findViewById(R.id.search_component);
+        searchComponent.setVisibility(View.GONE);
+
+        final TextView search_disp_switch = (TextView)findViewById(R.id.search_disp_switch);
+
+        search_disp_switch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(search_disp_flg){
+                    searchComponent.setVisibility(View.GONE);
+                    search_disp_switch.setText("検索、ソート条件を表示");
+                }
+                else{
+                    searchComponent.setVisibility(View.VISIBLE);
+                    search_disp_switch.setText("検索、ソート条件を非表示");
+                }
+
+                search_disp_flg = !search_disp_flg;
+            }
+        });
 
         Button sendButton = findViewById(R.id.to_task_edit);
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -116,14 +142,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //検索、Viewにセット
-                SQLiteDatabase db = helper.getReadableDatabase();
                 for(int statusId = 1; statusId < 4; statusId++){
                     //SQLiteのqueryメソッドに入れるconditionのString作成
                     Map<String, String> conditionMap = new HashMap<String, String>();
                     conditionMap.put("limit_date_start", limitDateStart);
                     conditionMap.put("limit_date_end", limitDateEnd);
                     conditionMap.put("status_id", String.valueOf(statusId));
-                    helper = new MySQLiteOpenHelper(getApplicationContext());
                     String condition = helper.buildSelectionStr(conditionMap);
 
                     setTaskListView(statusId, condition, order);
@@ -138,9 +162,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTaskListView(Integer statusId, String condition, String order){
-        // DB作成
-        helper = new MySQLiteOpenHelper(getApplicationContext());
-        SQLiteDatabase db = helper.getReadableDatabase();
 
         //タスク検索
         List<Task> taskList = Task.findAllByConditionStr(db, condition, order);

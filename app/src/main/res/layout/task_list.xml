@@ -30,7 +30,7 @@
             android:layout_toEndOf="@+id/imageView"
             android:layout_toRightOf="@+id/imageView"
             android:paddingLeft="5sp"
-            android:text="サブテキスト"
+            android:text="期限"
             android:textColor="#000000"
             android:textSize="20sp" />
 
@@ -41,7 +41,7 @@
             android:paddingBottom="10sp"
             android:paddingLeft="10sp"
             android:paddingTop="10sp"
-            android:text="メインテキスト"
+            android:text="タスク名"
             android:textColor="#000000"
             android:textSize="30sp" />
 
@@ -54,7 +54,7 @@
             android:layout_below="@+id/imageView"
             android:layout_weight="1"
             android:padding="10sp"
-            android:text="説明がここに表示される～～～～～"
+            android:text="備考"
             android:textColor="#000000"
             android:textSize="20sp" />
 
