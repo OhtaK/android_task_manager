@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 public class TaskActivity extends AppCompatActivity  {
 
-    private MySQLiteOpenHelper helper;
+    private TaskSQLiteOpenHelper helper;
     private SQLiteDatabase db;
 
     private Integer editTaskId;
@@ -41,7 +41,7 @@ public class TaskActivity extends AppCompatActivity  {
         taskDeleteButton = findViewById(R.id.task_delete_btn);
 
         //SQLite呼び出し
-        helper = new MySQLiteOpenHelper(getApplicationContext());
+        helper = new TaskSQLiteOpenHelper(getApplicationContext());
         db = helper.getReadableDatabase();
 
         Intent intent = getIntent();
@@ -49,9 +49,9 @@ public class TaskActivity extends AppCompatActivity  {
         if(intent.getStringExtra("task_id") != null) {
             //タスク情報から遷移してきた場合、そのタスクの情報を初期値としてテキストボックスに設定しておく
             editTaskId = Integer.valueOf(intent.getStringExtra("task_id"));
-            helper = new MySQLiteOpenHelper(getApplicationContext());
+            helper = new TaskSQLiteOpenHelper(getApplicationContext());
             SQLiteDatabase db = helper.getReadableDatabase();
-            Task task = Task.findByTaskId(db, editTaskId);
+            Task task = helper.findByTaskId(db, editTaskId);
 
             etTitle.setText(task.getTitle(), TextView.BufferType.NORMAL);
             etLimitDate.setText(task.getLimitDate(), TextView.BufferType.NORMAL);
@@ -72,10 +72,10 @@ public class TaskActivity extends AppCompatActivity  {
                 Integer statusId = StatusId.valueOf(selectedStatus).getStatusId();
 
                 if(editTaskId > 0){
-                    MySQLiteOpenHelper.updateById(db, editTaskId, title, description, limitDate, statusId);
+                    TaskSQLiteOpenHelper.updateById(db, editTaskId, title, description, limitDate, statusId);
                 }
                 else{
-                    MySQLiteOpenHelper.saveData(db, Task.fetchLastId(db) + 1, title, description, limitDate, statusId);
+                    TaskSQLiteOpenHelper.saveData(db, helper.fetchLastId(db) + 1, title, description, limitDate, statusId);
                 }
 
                 //トップページにリダイレクト
@@ -88,7 +88,7 @@ public class TaskActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 if(editTaskId > 0){
-                    MySQLiteOpenHelper.deleteById(db, editTaskId);
+                    TaskSQLiteOpenHelper.deleteById(db, editTaskId);
                 }
                 else{
                     //タスクが選択されてませんエラーを投げる

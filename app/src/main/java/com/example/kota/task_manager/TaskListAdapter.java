@@ -5,9 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -27,7 +24,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
     }
 
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         //Viewを受け取ってlist要素用のlayoutにセットしていく
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.task_list, parent, false);

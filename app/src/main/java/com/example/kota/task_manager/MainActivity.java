@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MySQLiteOpenHelper helper;
+    private TaskSQLiteOpenHelper helper;
     private SQLiteDatabase db;
     private boolean search_disp_flg;
     private RelativeLayout searchComponent;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_main);
-        helper = new MySQLiteOpenHelper(getApplicationContext());
+        helper = new TaskSQLiteOpenHelper(getApplicationContext());
         db = helper.getReadableDatabase();
 
         search_disp_flg = false;
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         searchComponent.setVisibility(View.GONE);
 
         search_disp_switch = (TextView)findViewById(R.id.search_disp_switch);
-
         search_disp_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,10 +123,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // Spinnerから選択したステータスを取得
                 Spinner spinnerOrderColumns = (Spinner) findViewById(R.id.sort_columns_spinner);
-                String selectedOrderColumns = (String) spinnerOrderColumns.getSelectedItem();
-
+                String selectedOrderColumns = (String) spinnerOrderColumns.getSelectedItem();//ソートする基準となるカラム
                 Spinner spinnerOrderBy = (Spinner) findViewById(R.id.sort_order_by_spinner);
-                String selectedOrderBy = (String) spinnerOrderBy.getSelectedItem();
+                String selectedOrderBy = (String) spinnerOrderBy.getSelectedItem();//昇順 or 降順
 
                 String order = "";
                 if(selectedOrderColumns.equals("期日")){
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     private void setTaskListView(Integer statusId, String condition, String order){
 
         //タスク検索
-        List<Task> taskList = Task.findAllByConditionStr(db, condition, order);
+        List<Task> taskList = helper.findAllByConditionStr(db, condition, order);
 
         //独自リスト表示用のadapterを用意
         TaskListAdapter adapter = new TaskListAdapter(getApplicationContext(), taskList);

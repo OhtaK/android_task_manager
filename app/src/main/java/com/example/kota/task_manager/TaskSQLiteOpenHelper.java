@@ -6,15 +6,18 @@ package com.example.kota.task_manager;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
+public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
 
     // データーベースのバージョン
     private static final int DATABASE_VERSION = 3;
@@ -43,7 +46,7 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 
-    MySQLiteOpenHelper(Context context) {
+    TaskSQLiteOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
     }
@@ -149,5 +152,83 @@ public class MySQLiteOpenHelper  extends SQLiteOpenHelper {
 
     public static void deleteById(SQLiteDatabase db, Integer id){
         db.delete("task", "id = " + id, null);
+    }
+
+    public List<Task> findAllByConditionStr (SQLiteDatabase db, String condition, String order){
+        //ステータスIDでタスクを検索し、結果をエンティティにセット
+        Cursor cursor = db.query(
+                "task",
+                new String[] {"id", "title", "description", "limit_date", "status_id"},
+                condition,
+                null,
+                null,
+                null,
+                order
+        );
+
+        //結果格納用のリスト
+        List<Task> taskList = new ArrayList<Task>();
+        cursor.moveToFirst();
+        for (int i = 0; i < cursor.getCount(); i++) {
+            Task task = new Task();
+            task.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            task.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+            task.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+            task.setLimitDate(cursor.getString(cursor.getColumnIndex("limit_date")));
+            task.setStatusId(Integer.valueOf(cursor.getString(cursor.getColumnIndex("status_id"))));
+
+            taskList.add(task);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return taskList;
+    }
+
+    public static Task findByTaskId (SQLiteDatabase db, Integer taskId){
+        //ステータスIDでタスクを検索し、結果をエンティティにセット
+        Cursor cursor = db.query(
+                "task",
+                new String[] {"id", "title", "description", "limit_date", "status_id", "create_date", "update_date"},
+                "id = " + String.valueOf(taskId),
+                null,
+                null,
+                null,
+                null
+        );
+
+        //結果格納用のリスト
+        cursor.moveToFirst();
+        Task task = new Task();
+        task.setId(cursor.getInt(cursor.getColumnIndex("id")));
+        task.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+        task.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+        task.setLimitDate(cursor.getString(cursor.getColumnIndex("limit_date")));
+        task.setStatusId(Integer.valueOf(cursor.getString(cursor.getColumnIndex("status_id"))));
+        cursor.close();
+
+        return task;
+    }
+
+    public static Integer fetchLastId (SQLiteDatabase db){
+        //最新のIDを検索
+        Cursor cursor = db.query(
+                "task",
+                new String[] {"id"},
+                null,
+                null,
+                null,
+                null,
+                "id desc",
+                "1"
+        );
+        Integer lastId = 0;
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0){
+            lastId = cursor.getInt(cursor.getColumnIndex("id"));
+        }
+        cursor.close();
+
+        return lastId;
     }
 }
