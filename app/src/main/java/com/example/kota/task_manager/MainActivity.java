@@ -1,6 +1,5 @@
 package com.example.kota.task_manager;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -24,9 +22,12 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private MySQLiteOpenHelper helper;
-    SQLiteDatabase db;
-    boolean search_disp_flg = false;
-    RelativeLayout searchComponent;
+    private SQLiteDatabase db;
+    private boolean search_disp_flg;
+    private RelativeLayout searchComponent;
+    private TextView search_disp_switch;
+
+    private Map<String, String> conditionMap = new HashMap<String, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
         helper = new MySQLiteOpenHelper(getApplicationContext());
         db = helper.getReadableDatabase();
 
+        search_disp_flg = false;
+
         //タスクを検索してviewにセット
         for(int statusId = 1; statusId < 4; statusId++){
-            Map<String, String> conditionMap = new HashMap<String, String>();
+            conditionMap.clear();
             conditionMap.put("status_id", String.valueOf(statusId));
             String condition = helper.buildSelectionStr(conditionMap);
             setTaskListView(statusId, condition, null);
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         searchComponent = (RelativeLayout)findViewById(R.id.search_component);
         searchComponent.setVisibility(View.GONE);
 
-        final TextView search_disp_switch = (TextView)findViewById(R.id.search_disp_switch);
+        search_disp_switch = (TextView)findViewById(R.id.search_disp_switch);
 
         search_disp_switch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 //検索、Viewにセット
                 for(int statusId = 1; statusId < 4; statusId++){
                     //SQLiteのqueryメソッドに入れるconditionのString作成
-                    Map<String, String> conditionMap = new HashMap<String, String>();
+                    conditionMap.clear();
                     conditionMap.put("limit_date_start", limitDateStart);
                     conditionMap.put("limit_date_end", limitDateEnd);
                     conditionMap.put("status_id", String.valueOf(statusId));
