@@ -18,19 +18,31 @@ import android.widget.TextView;
 public class TaskActivity extends AppCompatActivity  {
 
     private MySQLiteOpenHelper helper;
+    private SQLiteDatabase db;
+
     private Integer editTaskId;
+    private EditText etTitle;
+    private EditText etLimitDate;
+    private EditText etDescription;
+    private Spinner spinnerItem;
+    private Button taskAddButton;
+    private Button taskDeleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_add);
 
-        EditText etTitle = (EditText)findViewById(R.id.edit_task_name);
-        EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
-        EditText etDescription = (EditText) findViewById(R.id.edit_description);
-        Spinner spinnerItem = (Spinner) findViewById(R.id.status_id_spinner);
-        Button taskAddButton = findViewById(R.id.task_add_btn);
-        Button taskDeleteButton = findViewById(R.id.task_delete_btn);
+        etTitle = (EditText)findViewById(R.id.edit_task_name);
+        etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
+        etDescription = (EditText) findViewById(R.id.edit_description);
+        spinnerItem = (Spinner) findViewById(R.id.status_id_spinner);
+        taskAddButton = findViewById(R.id.task_add_btn);
+        taskDeleteButton = findViewById(R.id.task_delete_btn);
+
+        //SQLite呼び出し
+        helper = new MySQLiteOpenHelper(getApplicationContext());
+        db = helper.getReadableDatabase();
 
         Intent intent = getIntent();
         editTaskId = 0;
@@ -53,24 +65,11 @@ public class TaskActivity extends AppCompatActivity  {
         taskAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //各テキストボックスの値取得
-                EditText etTitle = (EditText) findViewById(R.id.edit_task_name);
-                EditText etLimitDate = (EditText) findViewById(R.id.edit_limit_date);
-                EditText etDescription = (EditText) findViewById(R.id.edit_description);
-
-                // Spinnerから選択したステータスを取得
-                Spinner spinnerItem = (Spinner) findViewById(R.id.status_id_spinner);
                 String selectedStatus = (String) spinnerItem.getSelectedItem();
-
                 String title = etTitle.getText().toString();
                 String limitDate = etLimitDate.getText().toString();
                 String description = etDescription.getText().toString();
                 Integer statusId = StatusId.valueOf(selectedStatus).getStatusId();
-
-                //SQLiteに保存
-                helper = new MySQLiteOpenHelper(getApplicationContext());
-                SQLiteDatabase db = helper.getReadableDatabase();
 
                 if(editTaskId > 0){
                     MySQLiteOpenHelper.updateById(db, editTaskId, title, description, limitDate, statusId);
@@ -88,10 +87,6 @@ public class TaskActivity extends AppCompatActivity  {
         taskDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //SQLiteに保存
-                helper = new MySQLiteOpenHelper(getApplicationContext());
-                SQLiteDatabase db = helper.getReadableDatabase();
-
                 if(editTaskId > 0){
                     MySQLiteOpenHelper.deleteById(db, editTaskId);
                 }
