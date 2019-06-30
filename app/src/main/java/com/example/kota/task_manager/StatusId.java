@@ -19,11 +19,11 @@ public enum StatusId {
         return statusId;
     }
 
-    public static StatusId getType(final int id) {
+    public static StatusId getType(final int inputId) {
         StatusId[] ids = StatusId.values();
-        for (StatusId idElem : ids) {
-            if (idElem.getValue() == id) {
-                return idElem;
+        for (StatusId id : ids) {
+            if (id.getValue() == inputId) {
+                return id;
             }
         }
         return null;
