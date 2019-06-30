@@ -53,20 +53,7 @@ public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        //テーブルの存在確認
-//        String query = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='task';";
-//        Cursor c = db.rawQuery(query, null);
-//        c.moveToFirst();
-//        String result = c.getString(0);
-//        Log.d("result", result);
-//
-//        //存在してなければ作成
-//        if(result == "0") {
-//            db.execSQL(
-//                    SQL_CREATE_ENTRIES
-//            );
-//        }
-
+        //すでにテーブルが作られていれば呼ばれない
         db.execSQL(
                 SQL_CREATE_ENTRIES
         );
@@ -79,38 +66,6 @@ public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
                 SQL_DELETE_ENTRIES
         );
         onCreate(db);
-    }
-
-    public String buildSelectionStr(Map<String, String> conditionMap){
-        //検索条件をmapで渡すとSQLiteのqueryに入れるStringを生成。配列をforeachで回してconditionを生成していく。
-        //値が入ってなかったら条件に入れない
-        String result = "";
-        int index = 0;
-        for (String key: conditionMap.keySet()) {
-            if(conditionMap.get(key).isEmpty()){
-                continue;
-            }
-            if(index != 0){
-                result += "and ";
-            }
-
-            switch(key){
-                case "status_id":
-                    result += "status_id =" + conditionMap.get(key) + " ";
-                    break;
-
-                case "limit_date_start":
-                    result += "limit_date >= '" + conditionMap.get(key) + "' ";
-                    break;
-
-                case "limit_date_end":
-                    result += "limit_date <= '" + conditionMap.get(key) + "' ";
-                    break;
-            }
-            index++;
-        }
-
-        return result;
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -154,7 +109,7 @@ public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
         db.delete("task", "id = " + id, null);
     }
 
-    public List<Task> findAllByConditionStr (SQLiteDatabase db, String condition, String order){
+    public static List<Task> findAllByConditionStr (SQLiteDatabase db, String condition, String order){
         //ステータスIDでタスクを検索し、結果をエンティティにセット
         Cursor cursor = db.query(
                 "task",
@@ -230,5 +185,37 @@ public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return lastId;
+    }
+
+    public static String buildSelectionStr(Map<String, String> conditionMap){
+        //検索条件をmapで渡すとSQLiteのqueryに入れるStringを生成。配列をforeachで回してconditionを生成していく。
+        //値が入ってなかったら条件に入れない
+        String result = "";
+        int index = 0;
+        for (String key: conditionMap.keySet()) {
+            if(conditionMap.get(key).isEmpty()){
+                continue;
+            }
+            if(index != 0){
+                result += "and ";
+            }
+
+            switch(key){
+                case "status_id":
+                    result += "status_id =" + conditionMap.get(key) + " ";
+                    break;
+
+                case "limit_date_start":
+                    result += "limit_date >= '" + conditionMap.get(key) + "' ";
+                    break;
+
+                case "limit_date_end":
+                    result += "limit_date <= '" + conditionMap.get(key) + "' ";
+                    break;
+            }
+            index++;
+        }
+
+        return result;
     }
 }

@@ -21,8 +21,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TaskSQLiteOpenHelper helper;
-    private SQLiteDatabase db;
     private boolean search_disp_flg;
     private RelativeLayout searchComponent;
     private TextView search_disp_switch;
@@ -35,17 +33,17 @@ public class MainActivity extends AppCompatActivity {
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_main);
-        helper = new TaskSQLiteOpenHelper(getApplicationContext());
-        db = helper.getReadableDatabase();
 
         search_disp_flg = false;
 
         //タスクを検索してviewにセット
-        for(int statusId = 1; statusId < 4; statusId++){
+        StatusId[] statusIds = StatusId.values();
+        for (StatusId statusId : statusIds) {
             conditionMap.clear();
-            conditionMap.put("status_id", String.valueOf(statusId));
-            String condition = helper.buildSelectionStr(conditionMap);
-            setTaskListView(statusId, condition, null);
+            conditionMap.put("status_id", String.valueOf(statusId.getValue()));
+
+            String condition = TaskSQLiteOpenHelper.buildSelectionStr(conditionMap);
+            setTaskListView(statusId.getValue(), condition, null);
         }
 
         searchComponent = (RelativeLayout)findViewById(R.id.search_component);
@@ -143,15 +141,16 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //検索、Viewにセット
-                for(int statusId = 1; statusId < 4; statusId++){
+                StatusId[] statusIds = StatusId.values();
+                for (StatusId statusId : statusIds) {
                     //SQLiteのqueryメソッドに入れるconditionのString作成
                     conditionMap.clear();
                     conditionMap.put("limit_date_start", limitDateStart);
                     conditionMap.put("limit_date_end", limitDateEnd);
-                    conditionMap.put("status_id", String.valueOf(statusId));
-                    String condition = helper.buildSelectionStr(conditionMap);
+                    conditionMap.put("status_id", String.valueOf(statusId.getValue()));
+                    String condition = TaskSQLiteOpenHelper.buildSelectionStr(conditionMap);
 
-                    setTaskListView(statusId, condition, order);
+                    setTaskListView(statusId.getValue(), condition, order);
                 }
             }
         });
@@ -162,31 +161,32 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setTaskListView(Integer statusId, String condition, String order){
+    private void setTaskListView(int statusId, String condition, String order){
+
+        TaskSQLiteOpenHelper helper = new TaskSQLiteOpenHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getReadableDatabase();
 
         //タスク検索
-        List<Task> taskList = helper.findAllByConditionStr(db, condition, order);
-
+        List<Task> taskList = TaskSQLiteOpenHelper.findAllByConditionStr(db, condition, order);
         //独自リスト表示用のadapterを用意
         TaskListAdapter adapter = new TaskListAdapter(getApplicationContext(), taskList);
 
-        ListView listView = null;
         // ListViewにArrayAdapterを設定する
-        switch(statusId){
-            case 1:
+        ListView listView = null;
+        switch(StatusId.getType(statusId)){
+            case TODO:
                 listView = (ListView)findViewById(R.id.todo_task_list);
                 break;
 
-            case 2:
+            case DOING:
                 listView = (ListView)findViewById(R.id.doing_task_list);
                 break;
 
-            case 3:
+            case DONE:
                 listView = (ListView)findViewById(R.id.done_task_list);
                 break;
 
             default:
-                //不正な引数が入りましたエラーを投げる
                 break;
         }
 

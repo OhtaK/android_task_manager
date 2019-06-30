@@ -17,9 +17,6 @@ import android.widget.TextView;
 
 public class TaskActivity extends AppCompatActivity  {
 
-    private TaskSQLiteOpenHelper helper;
-    private SQLiteDatabase db;
-
     private Integer editTaskId;
     private EditText etTitle;
     private EditText etLimitDate;
@@ -40,16 +37,12 @@ public class TaskActivity extends AppCompatActivity  {
         taskAddButton = findViewById(R.id.task_add_btn);
         taskDeleteButton = findViewById(R.id.task_delete_btn);
 
-        //SQLite呼び出し
-        helper = new TaskSQLiteOpenHelper(getApplicationContext());
-        db = helper.getReadableDatabase();
-
         Intent intent = getIntent();
         editTaskId = 0;
         if(intent.getStringExtra("task_id") != null) {
             //タスク情報から遷移してきた場合、そのタスクの情報を初期値としてテキストボックスに設定しておく
             editTaskId = Integer.valueOf(intent.getStringExtra("task_id"));
-            helper = new TaskSQLiteOpenHelper(getApplicationContext());
+            TaskSQLiteOpenHelper helper = new TaskSQLiteOpenHelper(getApplicationContext());
             SQLiteDatabase db = helper.getReadableDatabase();
             Task task = helper.findByTaskId(db, editTaskId);
 
@@ -69,7 +62,10 @@ public class TaskActivity extends AppCompatActivity  {
                 String title = etTitle.getText().toString();
                 String limitDate = etLimitDate.getText().toString();
                 String description = etDescription.getText().toString();
-                Integer statusId = StatusId.valueOf(selectedStatus).getStatusId();
+                Integer statusId = StatusId.valueOf(selectedStatus).getValue();
+
+                TaskSQLiteOpenHelper helper = new TaskSQLiteOpenHelper(getApplicationContext());
+                SQLiteDatabase db = helper.getReadableDatabase();
 
                 if(editTaskId > 0){
                     TaskSQLiteOpenHelper.updateById(db, editTaskId, title, description, limitDate, statusId);
@@ -87,12 +83,9 @@ public class TaskActivity extends AppCompatActivity  {
         taskDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editTaskId > 0){
-                    TaskSQLiteOpenHelper.deleteById(db, editTaskId);
-                }
-                else{
-                    //タスクが選択されてませんエラーを投げる
-                }
+                TaskSQLiteOpenHelper helper = new TaskSQLiteOpenHelper(getApplicationContext());
+                SQLiteDatabase db = helper.getReadableDatabase();
+                TaskSQLiteOpenHelper.deleteById(db, editTaskId);
 
                 //トップページにリダイレクト
                 Intent intent = new Intent(getApplication(), MainActivity.class);
