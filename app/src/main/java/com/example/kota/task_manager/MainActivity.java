@@ -1,5 +1,6 @@
 package com.example.kota.task_manager;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -32,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
 
     private Map<String, String> conditionMap = new HashMap<String, String>();
 
+    private EditText etLimitDateStart;
+    private EditText etLimitDateEnd;
+
+    private Button searchBtn;
+    private Button toTaskAddButton;
+
+    private Spinner spinnerOrderColumns;
+    private Spinner spinnerOrderBy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         search_disp_flg = false;
+
+        etLimitDateStart = (EditText) findViewById(R.id.search_limit_date_start);
+        etLimitDateEnd = (EditText) findViewById(R.id.search_limit_date_end);
+
+        searchBtn = findViewById(R.id.btn_search);
+        toTaskAddButton = findViewById(R.id.to_task_edit);
+
+        spinnerOrderColumns = (Spinner) findViewById(R.id.sort_columns_spinner);
+        spinnerOrderBy = (Spinner) findViewById(R.id.sort_order_by_spinner);
 
         //タスクを検索してviewにセット
         StatusId[] statusIds = StatusId.values();
@@ -71,63 +90,56 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button sendButton = findViewById(R.id.to_task_edit);
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        etLimitDateStart.setKeyListener(null);
+        etLimitDateStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                toEditActivity();
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    //datepickerを呼び出し
+                    DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                    datePicker.showDateView = (EditText) findViewById(R.id.search_limit_date_start);
+                    datePicker.show(getSupportFragmentManager(), "datePicker");
+                }
             }
         });
 
-        EditText etLimitDateStart = (EditText) findViewById(R.id.search_limit_date_start);
         etLimitDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ソフトキーボードを表示させない
-                if (v != null) {
-                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-
-                //datepickerを呼び出し
-                DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
-                datePicker.showDateView = (EditText) findViewById(R.id.search_limit_date_start);
-                datePicker.show(getSupportFragmentManager(), "datePicker");
+                etLimitDateStart.getOnFocusChangeListener().onFocusChange(etLimitDateStart, true);
             }
         });
 
-        EditText etLimitDateEnd = (EditText) findViewById(R.id.search_limit_date_end);
+        etLimitDateEnd.setKeyListener(null);
+        etLimitDateEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    //datepickerを呼び出し
+                    DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                    datePicker.showDateView = (EditText) findViewById(R.id.search_limit_date_end);
+                    datePicker.show(getSupportFragmentManager(), "datePicker");
+                }
+            }
+        });
+
         etLimitDateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ソフトキーボードを表示させない
-                if (v != null) {
-                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-
-                //datepickerを呼び出し
-                DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
-                datePicker.showDateView = (EditText) findViewById(R.id.search_limit_date_end);
-                datePicker.show(getSupportFragmentManager(), "datePicker");
+                etLimitDateEnd.getOnFocusChangeListener().onFocusChange(etLimitDateEnd, true);
             }
         });
 
-        Button BtnSearch = findViewById(R.id.btn_search);
-        BtnSearch.setOnClickListener(new View.OnClickListener() {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //conditionを取ってきてタスクリストを作り変える
                 //各テキストボックスの値取得
-                EditText etLimitDateStart = (EditText) findViewById(R.id.search_limit_date_start);
-                EditText etLimitDateEnd = (EditText) findViewById(R.id.search_limit_date_end);
                 String limitDateStart = etLimitDateStart.getText().toString();
                 String limitDateEnd = etLimitDateEnd.getText().toString();
 
                 // Spinnerから選択したステータスを取得
-                Spinner spinnerOrderColumns = (Spinner) findViewById(R.id.sort_columns_spinner);
                 String selectedOrderColumns = (String) spinnerOrderColumns.getSelectedItem();//ソートする基準となるカラム
-                Spinner spinnerOrderBy = (Spinner) findViewById(R.id.sort_order_by_spinner);
                 String selectedOrderBy = (String) spinnerOrderBy.getSelectedItem();//昇順 or 降順
 
                 String order = "";
@@ -145,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     order += "desc";
                 }
 
-                //検索、Viewにセット
+                //検索＋ソートして、adapterにセットし直す
                 StatusId[] statusIds = StatusId.values();
                 for (StatusId statusId : statusIds) {
                     //SQLiteのqueryメソッドに入れるconditionのString作成
@@ -157,6 +169,13 @@ public class MainActivity extends AppCompatActivity {
 
                     setTaskListView(statusId.getValue(), condition, order);
                 }
+            }
+        });
+
+        toTaskAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toEditActivity();
             }
         });
     }
