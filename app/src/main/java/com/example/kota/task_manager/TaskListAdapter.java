@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.kota.task_manager.Entity.Task;
+
 import java.util.List;
 
 /**

@@ -1,4 +1,4 @@
-package com.example.kota.task_manager;
+package com.example.kota.task_manager.Entity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

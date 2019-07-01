@@ -1,4 +1,4 @@
-package com.example.kota.task_manager;
+package com.example.kota.task_manager.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

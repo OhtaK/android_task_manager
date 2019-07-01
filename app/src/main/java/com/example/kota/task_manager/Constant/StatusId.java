@@ -1,4 +1,4 @@
-package com.example.kota.task_manager;
+package com.example.kota.task_manager.Constant;
 
 /**
  * Created by keisuke-ota on 2019/05/23.
@@ -29,4 +29,3 @@ public enum StatusId {
         return null;
     }
 }
-

@@ -1,4 +1,4 @@
-package com.example.kota.task_manager;
+package com.example.kota.task_manager.Entity;
 
 /**
  * Created by keisuke-ota on 2019/05/03.
@@ -9,6 +9,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.kota.task_manager.Entity.Task;
 
 import java.sql.Date;
 import java.text.DateFormat;
