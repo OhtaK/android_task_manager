@@ -27,7 +27,7 @@
                 android:layout_toRightOf="@+id/sort_order_by_spinner"
                 android:gravity="center"
                 android:text="でソート"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 tools:layout_editor_absoluteX="289dp"
                 tools:layout_editor_absoluteY="108dp" />
 
@@ -41,7 +41,7 @@
                 android:layout_marginEnd="29dp"
                 android:layout_marginRight="29dp"
                 android:ems="10"
-                android:hint="期日で検索（終点）"
+                android:hint="期日で検索(終点)"
                 android:inputType="text"
                 tools:layout_editor_absoluteX="44dp"
                 tools:layout_editor_absoluteY="84dp" />
@@ -104,7 +104,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:ems="10"
-                android:hint="期日で検索（始点）"
+                android:hint="期日で検索(始点)"
                 android:inputType="text"
                 tools:layout_editor_absoluteX="44dp"
                 tools:layout_editor_absoluteY="84dp" />

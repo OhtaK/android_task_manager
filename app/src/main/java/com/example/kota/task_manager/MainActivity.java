@@ -156,19 +156,14 @@ public class MainActivity extends AppCompatActivity {
                     order += "desc";
                 }
 
-                //各テキストボックスの値取得
-                String limitDateStart = etLimitDateStart.getText().toString();
-                String limitDateEnd = etLimitDateEnd.getText().toString();
-                String taskTitle = etTaskTitle.getText().toString();
-
                 //検索＋ソートして、adapterにセットし直す
                 StatusId[] statusIds = StatusId.values();
                 for (StatusId statusId : statusIds) {
                     //SQLiteのqueryメソッドに入れるconditionのString作成
                     conditionMap.clear();
-                    conditionMap.put("limit_date_start", limitDateStart);
-                    conditionMap.put("limit_date_end", limitDateEnd);
-                    conditionMap.put("task_title", taskTitle);
+                    conditionMap.put("limit_date_start", etLimitDateStart.getText().toString());
+                    conditionMap.put("limit_date_end", etLimitDateEnd.getText().toString());
+                    conditionMap.put("task_title", etTaskTitle.getText().toString());
                     conditionMap.put("status_id", String.valueOf(statusId.getValue()));
                     String condition = TaskSQLiteOpenHelper.buildSelectionStr(conditionMap);
 
