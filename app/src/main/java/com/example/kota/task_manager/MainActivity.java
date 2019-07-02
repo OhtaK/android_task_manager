@@ -27,9 +27,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean search_disp_flg;
     private RelativeLayout searchComponent;
-    private TextView search_disp_switch;
+    private TextView searchDispSwitch;
+    private boolean searchDispFlg;
 
     private Map<String, String> conditionMap = new HashMap<String, String>();
 
@@ -38,10 +38,13 @@ public class MainActivity extends AppCompatActivity {
     private EditText etTaskTitle;
 
     private Button searchBtn;
+    private Button searchAllBtn;
     private Button toTaskAddButton;
 
     private Spinner spinnerOrderColumns;
     private Spinner spinnerOrderBy;
+
+    private final StatusId[] statusIds = StatusId.values();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +53,20 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_main);
 
-        search_disp_flg = false;
+        searchDispFlg = false;
 
         etLimitDateStart = (EditText) findViewById(R.id.search_limit_date_start);
         etLimitDateEnd = (EditText) findViewById(R.id.search_limit_date_end);
         etTaskTitle = (EditText) findViewById(R.id.search_task_title);
 
         searchBtn = findViewById(R.id.btn_search);
+        searchAllBtn = findViewById(R.id.btn_search_all);
         toTaskAddButton = findViewById(R.id.to_task_edit);
 
         spinnerOrderColumns = (Spinner) findViewById(R.id.sort_columns_spinner);
         spinnerOrderBy = (Spinner) findViewById(R.id.sort_order_by_spinner);
 
         //タスクを検索してviewにセット
-        StatusId[] statusIds = StatusId.values();
         for (StatusId statusId : statusIds) {
             conditionMap.clear();
             conditionMap.put("status_id", String.valueOf(statusId.getValue()));
@@ -75,20 +78,11 @@ public class MainActivity extends AppCompatActivity {
         searchComponent = (RelativeLayout)findViewById(R.id.search_component);
         searchComponent.setVisibility(View.GONE);
 
-        search_disp_switch = (TextView)findViewById(R.id.search_disp_switch);
-        search_disp_switch.setOnClickListener(new View.OnClickListener() {
+        searchDispSwitch = (TextView)findViewById(R.id.search_disp_switch);
+        searchDispSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(search_disp_flg){
-                    searchComponent.setVisibility(View.GONE);
-                    search_disp_switch.setText("検索、ソート条件を表示");
-                }
-                else{
-                    searchComponent.setVisibility(View.VISIBLE);
-                    search_disp_switch.setText("検索、ソート条件を非表示");
-                }
-
-                search_disp_flg = !search_disp_flg;
+                switchSearchComponentDisp();
             }
         });
 
@@ -157,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //検索＋ソートして、adapterにセットし直す
-                StatusId[] statusIds = StatusId.values();
+                //StatusId[] statusIds = StatusId.values();
                 for (StatusId statusId : statusIds) {
                     //SQLiteのqueryメソッドに入れるconditionのString作成
                     conditionMap.clear();
@@ -169,6 +163,24 @@ public class MainActivity extends AppCompatActivity {
 
                     setTaskListView(statusId.getValue(), condition, order);
                 }
+
+                switchSearchComponentDisp();
+            }
+        });
+
+        //全件検索
+        searchAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (StatusId statusId : statusIds) {
+                    conditionMap.clear();
+                    conditionMap.put("status_id", String.valueOf(statusId.getValue()));
+
+                    String condition = TaskSQLiteOpenHelper.buildSelectionStr(conditionMap);
+                    setTaskListView(statusId.getValue(), condition, null);
+                }
+
+                switchSearchComponentDisp();
             }
         });
 
@@ -178,6 +190,19 @@ public class MainActivity extends AppCompatActivity {
                 toEditActivity();
             }
         });
+    }
+
+    private void switchSearchComponentDisp(){
+        if(searchDispFlg){
+            searchComponent.setVisibility(View.GONE);
+            searchDispSwitch.setText("検索、ソート条件を表示");
+        }
+        else{
+            searchComponent.setVisibility(View.VISIBLE);
+            searchDispSwitch.setText("検索、ソート条件を非表示");
+        }
+
+        searchDispFlg = !searchDispFlg;
     }
 
     public void toEditActivity(){

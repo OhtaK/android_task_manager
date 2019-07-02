@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     tools:context="com.example.kota.task_manager.MainActivity">
 
     <RelativeLayout
@@ -57,6 +58,20 @@
                 android:entries="@array/sort_order"
                 tools:layout_editor_absoluteX="55dp"
                 tools:layout_editor_absoluteY="62dp" />
+
+            <Button
+                android:id="@+id/btn_search_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/btn_search"
+                android:layout_alignBottom="@+id/btn_search"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_toEndOf="@+id/btn_search"
+                android:layout_toRightOf="@+id/btn_search"
+                android:text="全件検索"
+                tools:layout_editor_absoluteX="89dp"
+                tools:layout_editor_absoluteY="103dp" />
 
             <Button
                 android:id="@+id/btn_search"
