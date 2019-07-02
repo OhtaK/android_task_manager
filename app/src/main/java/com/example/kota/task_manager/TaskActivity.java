@@ -98,19 +98,22 @@ public class TaskActivity extends AppCompatActivity  {
             }
         });
 
+        etLimitDate.setKeyListener(null);
+        etLimitDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    //datepickerを呼び出し
+                    DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+                    datePicker.showDateView = (EditText) findViewById(R.id.edit_limit_date);
+                    datePicker.show(getSupportFragmentManager(), "datePicker");
+                }
+            }
+        });
         etLimitDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ソフトキーボードを表示させない
-                if (v != null) {
-                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-
-                //datepickerを呼び出し
-                DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
-                datePicker.showDateView = (EditText) findViewById(R.id.edit_limit_date);
-                datePicker.show(getSupportFragmentManager(), "datePicker");
+                etLimitDate.getOnFocusChangeListener().onFocusChange(etLimitDate, true);
             }
         });
     }

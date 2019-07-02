@@ -1,10 +1,8 @@
 package com.example.kota.task_manager;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.view.View;
@@ -53,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_main);
 
+        //初期値設定
         searchDispFlg = false;
 
         etLimitDateStart = (EditText) findViewById(R.id.search_limit_date_start);
@@ -66,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         spinnerOrderColumns = (Spinner) findViewById(R.id.sort_columns_spinner);
         spinnerOrderBy = (Spinner) findViewById(R.id.sort_order_by_spinner);
 
+        searchComponent = (RelativeLayout)findViewById(R.id.search_component);
+        searchComponent.setVisibility(View.GONE);
+
         //タスクを検索してviewにセット
         for (StatusId statusId : statusIds) {
             conditionMap.clear();
@@ -75,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
             setTaskListView(statusId.getValue(), condition, null);
         }
 
-        searchComponent = (RelativeLayout)findViewById(R.id.search_component);
-        searchComponent.setVisibility(View.GONE);
-
+        //クリックした時の挙動を設定
         searchDispSwitch = (TextView)findViewById(R.id.search_disp_switch);
         searchDispSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         etLimitDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         etLimitDateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
         toTaskAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toEditActivity();
+                Intent intent = new Intent(getApplication(), TaskActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -203,11 +202,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         searchDispFlg = !searchDispFlg;
-    }
-
-    public void toEditActivity(){
-        Intent intent = new Intent(getApplication(), TaskActivity.class);
-        startActivity(intent);
     }
 
     private void setTaskListView(int statusId, String condition, String order){
