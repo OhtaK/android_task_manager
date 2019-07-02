@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etLimitDateStart;
     private EditText etLimitDateEnd;
+    private EditText etTaskTitle;
 
     private Button searchBtn;
     private Button toTaskAddButton;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         etLimitDateStart = (EditText) findViewById(R.id.search_limit_date_start);
         etLimitDateEnd = (EditText) findViewById(R.id.search_limit_date_end);
+        etTaskTitle = (EditText) findViewById(R.id.search_task_title);
 
         searchBtn = findViewById(R.id.btn_search);
         toTaskAddButton = findViewById(R.id.to_task_edit);
@@ -133,10 +135,7 @@ public class MainActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //conditionを取ってきてタスクリストを作り変える
-                //各テキストボックスの値取得
-                String limitDateStart = etLimitDateStart.getText().toString();
-                String limitDateEnd = etLimitDateEnd.getText().toString();
+                //入力した検索、ソート条件を元にタスクリストを作り変える
 
                 // Spinnerから選択したステータスを取得
                 String selectedOrderColumns = (String) spinnerOrderColumns.getSelectedItem();//ソートする基準となるカラム
@@ -157,6 +156,11 @@ public class MainActivity extends AppCompatActivity {
                     order += "desc";
                 }
 
+                //各テキストボックスの値取得
+                String limitDateStart = etLimitDateStart.getText().toString();
+                String limitDateEnd = etLimitDateEnd.getText().toString();
+                String taskTitle = etTaskTitle.getText().toString();
+
                 //検索＋ソートして、adapterにセットし直す
                 StatusId[] statusIds = StatusId.values();
                 for (StatusId statusId : statusIds) {
@@ -164,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                     conditionMap.clear();
                     conditionMap.put("limit_date_start", limitDateStart);
                     conditionMap.put("limit_date_end", limitDateEnd);
+                    conditionMap.put("task_title", taskTitle);
                     conditionMap.put("status_id", String.valueOf(statusId.getValue()));
                     String condition = TaskSQLiteOpenHelper.buildSelectionStr(conditionMap);
 

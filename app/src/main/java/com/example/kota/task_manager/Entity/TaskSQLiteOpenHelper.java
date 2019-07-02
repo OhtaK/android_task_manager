@@ -212,6 +212,10 @@ public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
                 case "limit_date_end":
                     result += "limit_date <= '" + conditionMap.get(key) + "' ";
                     break;
+
+                case "task_title":
+                    result += "title like '%" + conditionMap.get(key) + "%' ";
+                    break;
             }
             index++;
         }
