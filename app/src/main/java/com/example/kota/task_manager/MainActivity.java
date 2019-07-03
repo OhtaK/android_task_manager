@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
             conditionMap.put("status_id", String.valueOf(statusId.getValue()));
 
             String condition = TaskSQLiteOpenHelper.buildSelectionStr(conditionMap);
-            setTaskListView(statusId.getValue(), condition, null);
+            String order = "limit_date asc";
+            setTaskListView(statusId.getValue(), condition, order);
         }
 
         //クリックした時の挙動を設定
