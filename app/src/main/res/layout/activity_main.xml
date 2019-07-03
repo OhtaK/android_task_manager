@@ -240,10 +240,6 @@
                     android:layout_marginTop="41dp">
 
                 </ListView>
-
-
             </RelativeLayout>
-
         </HorizontalScrollView>
-
 </RelativeLayout>

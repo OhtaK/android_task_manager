@@ -7,7 +7,6 @@ package com.example.kota.task_manager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
@@ -49,12 +48,13 @@ public class TaskActivity extends AppCompatActivity  {
             editTaskId = Integer.valueOf(intent.getStringExtra("task_id"));
             TaskSQLiteOpenHelper helper = new TaskSQLiteOpenHelper(getApplicationContext());
             SQLiteDatabase db = helper.getReadableDatabase();
-            Task task = helper.findByTaskId(db, editTaskId);
+            Task task = TaskSQLiteOpenHelper.findByTaskId(db, editTaskId);
 
+            //TextView.BufferTypeによって返り値が異なる。参考：https://high-programmer.com/2017/09/09/android-studio-edittext-setvalue/
             etTitle.setText(task.getTitle(), TextView.BufferType.NORMAL);
             etLimitDate.setText(task.getLimitDate(), TextView.BufferType.NORMAL);
             etDescription.setText(task.getDescription(), TextView.BufferType.NORMAL);
-            spinnerItem.setSelection(task.getStatusId() - 1);
+            spinnerItem.setSelection(task.getStatusId() - 1);//スピナーの要素の添え字は0からなので
 
             //削除ボタン表示
             taskDeleteButton.setVisibility(View.VISIBLE);

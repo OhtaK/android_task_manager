@@ -14,9 +14,10 @@ import java.util.Locale;
  * Created by keisuke-ota on 2019/06/04.
  */
 
+//DatePickerの表示用
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    public EditText showDateView;
+    public EditText showDateView;//日付を選択した時にそれを表示するView
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

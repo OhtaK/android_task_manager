@@ -59,7 +59,7 @@ public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
         );
     }
 
-    // 参考：https://sankame.github.io/blog/2017-09-05-android_sqlite_db_upgrade/
+    // DATABASE_VERSIONが異なる場合これが呼ばれてDBを作り直す。参考：https://sankame.github.io/blog/2017-09-05-android_sqlite_db_upgrade/
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(
@@ -152,7 +152,7 @@ public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
                 null
         );
 
-        //結果格納用のリスト
+        //結果を格納
         cursor.moveToFirst();
         Task task = new Task();
         task.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -189,7 +189,7 @@ public class TaskSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public static String buildSelectionStr(Map<String, String> conditionMap){
         //検索条件をmapで渡すとSQLiteのqueryに入れるStringを生成。配列をforeachで回してconditionを生成していく。
-        //値が入ってなかったら条件に入れない
+        //値が入ってなかったら無視
         String result = "";
         int index = 0;
         for (String key: conditionMap.keySet()) {
